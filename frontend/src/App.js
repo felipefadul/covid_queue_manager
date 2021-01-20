@@ -1,12 +1,14 @@
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Hello, World!
-        </p>
-      </header>
-    </div>
+    <AzureAD provider={authProvider} forceLogin={true}>
+      <div className="App">
+        <header className="App-header">
+          <p>
+            Hello, World!
+          </p>
+        </header>
+      </div>
+    </AzureAD>
   );
 }
 
