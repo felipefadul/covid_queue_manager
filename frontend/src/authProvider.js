@@ -15,7 +15,7 @@ export const authProvider = new MsalAuthProvider(
       navigateToLoginRequestUrl: true
     },
     cache: {
-      cacheLocation: "localStorage",
+      cacheLocation: "sessionStorage",
       storeAuthStateInCookie: true
     }
   },
@@ -25,7 +25,7 @@ export const authProvider = new MsalAuthProvider(
   },
   // Options
   {
-    loginType: LoginType.Popup,
+    loginType: LoginType.Redirect,
     tokenRefreshUri: window.location.origin + "/auth.html"
   }
 );
