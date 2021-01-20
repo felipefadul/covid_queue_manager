@@ -6,9 +6,9 @@ export const authProvider = new MsalAuthProvider(
     auth: {
       authority:
         "https://login.microsoftonline.com/ccf4e4a8-f0a6-46f2-80ff-cbe92c1ed943",
-      clientId: "49bf4f3f-97b3-435b-8308-d1576bad13cb",
+      clientId: "d63922d8-e013-4231-9e54-1d8638a05f1b",
       postLogoutRedirectUri: window.location.origin,
-      redirectUri: "https://localhost:3000",
+      redirectUri: "https://localhost:3000/",
       validateAuthority: true,
       // After being redirected to the "redirectUri" page, should user
       // be redirected back to the Url where their login originated from?
@@ -25,7 +25,7 @@ export const authProvider = new MsalAuthProvider(
   },
   // Options
   {
-    loginType: LoginType.Redirect,
+    loginType: LoginType.Popup,
     tokenRefreshUri: window.location.origin + "/auth.html"
   }
 );
