@@ -5,9 +5,12 @@ import { authProvider } from "../../authProvider";
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
+import { store } from '../../reduxStore';
+
 export default function Home() {
   function handleAccess() {
     authProvider.login();
+    console.log(authProvider.getAccountInfo());
   }
 
   return (
