@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { AzureAD, AuthenticationState} from "react-aad-msal";
 import { authProvider } from "./authProvider";
 import { store } from './reduxStore';
@@ -34,6 +35,14 @@ function App() {
   }
 </AzureAD>
  
+=======
+import React from 'react';
+import Routes from "./routes";
+
+function App() {
+  return (
+    <Routes />
+>>>>>>> 2b171ac8e05220f6e3848e7b28ad0e3ac4d16459
   );
 }
 
