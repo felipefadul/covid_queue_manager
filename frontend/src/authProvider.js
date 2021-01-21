@@ -1,5 +1,6 @@
 // authProvider.js
 import { MsalAuthProvider, LoginType } from "react-aad-msal";
+import { Logger, LogLevel } from "msal";
 // Msal Configurations
 export const authProvider = new MsalAuthProvider(
   {
@@ -14,6 +15,17 @@ export const authProvider = new MsalAuthProvider(
       // be redirected back to the Url where their login originated from?
       navigateToLoginRequestUrl: true
     },
+    system: {
+      logger: new Logger(
+        (logLevel, message, containsPii) => {
+          console.log("[MSAL]", message);
+        },
+        {
+          level: LogLevel.Verbose,
+          piiLoggingEnabled: false
+        }
+      )
+    },
     cache: {
       cacheLocation: "sessionStorage",
       storeAuthStateInCookie: true
@@ -21,7 +33,7 @@ export const authProvider = new MsalAuthProvider(
   },
   // Authentication Parameters
   {
-    scopes: ["openid"]
+    scopes: ["openid","profile","user.read","api://d63922d8-e013-4231-9e54-1d8638a05f1b/read"]
   },
   // Options
   {
