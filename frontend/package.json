@@ -9,12 +9,14 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
+    "react-redux": "5.0.7",
     "web-vitals": "^0.2.4",
     "msal": "1.4.4",
-    "react-aad-msal": "2.3.5"
+    "react-aad-msal": "2.3.5",
+    "redux": "4.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "($env:HTTPS = "true") -and (react-scripts start)",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
