@@ -1,16 +1,17 @@
 import React from 'react';
 
+import { authProvider } from "../../authProvider";
+
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
-import { AzureAD } from "react-aad-msal";
-import { authProvider } from "../../authProvider";
-
 export default function Home() {
+  function handleAccess() {
+    authProvider.login();
+  }
 
   return (
-    <AzureAD provider={authProvider} forceLogin={true}>
-      <S.HomeContainer>
+    <S.HomeContainer>
         <S.Content>
           <S.AppTitle>
             Sistema de Triagem <br /> Coronavírus
@@ -18,12 +19,11 @@ export default function Home() {
           <S.Button>
             PAINEL DE ATENDIMENTO
         </S.Button>
-          <S.Button>
+          <S.Button onClick={handleAccess}>
             ÁREA RESTRITA
-        </S.Button>
+          </S.Button>
         </S.Content>
         <GlobalStyle />
       </S.HomeContainer>
-    </AzureAD>
   );
 }
