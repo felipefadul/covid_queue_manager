@@ -13,6 +13,8 @@
     "react-scripts": "4.0.1",
     "web-vitals": "^0.2.4",
     "msal": "1.4.4",
+    "react-redux": "5.0.7",
+    "redux": "4.0.0",
     "react-aad-msal": "2.3.5",
     "styled-components": "^5.2.1"
   },
