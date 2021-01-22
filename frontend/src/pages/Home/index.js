@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
+import { AuthenticationState } from 'react-aad-msal';
 import { authProvider } from "../../authProvider";
 
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
-import { store } from '../../reduxStore';
-
 export default function Home() {
-  function handleAccess() {
-    authProvider.login();
-    console.log(authProvider.getAccountInfo());
+  const history = useHistory();
+  const [loadingState, setLoadingState] = useState(false);
+  
+  async function handleAccess() {
+    setLoadingState(true);
+    await authProvider.login();
+    setLoadingState(false);
+    switch (authProvider.authenticationState) {
+      case AuthenticationState.Authenticated:
+        history.push('/history');
+        setLoadingState(false);
+        break;
+      case AuthenticationState.Unauthenticated:
+        setLoadingState(false);
+        alert('Falha no login, tente novamente.');
+        break;
+      case AuthenticationState.InProgress:
+        setLoadingState(true);
+        break;
+      default:
+        setLoadingState(false);
+    }
   }
 
   return (
@@ -22,40 +42,12 @@ export default function Home() {
           <S.Button>
             PAINEL DE ATENDIMENTO
         </S.Button>
-          <S.Button onClick={handleAccess}>
-            ÁREA RESTRITA
-          </S.Button>
+        <S.Button onClick={handleAccess}>
+          ÁREA RESTRITA
+        </S.Button>
+        { loadingState ? <CircularProgress style={{color: '#006600', marginTop: 5}}/> : ''}
         </S.Content>
         <GlobalStyle />
       </S.HomeContainer>
   );
 }
-
-
-{/* <AzureAD provider={authProvider} forceLogin={true} reduxStore={store}>
-  {
-    ({login, logout, authenticationState, error, accountInfo}) => {
-      switch (authenticationState) {
-        case AuthenticationState.Authenticated:
-          return (
-            <p>
-              <span>Welcome, {console.log(accountInfo)} !</span>
-              <button onClick={logout}>Logout</button>
-            </p>
-          );
-        case AuthenticationState.Unauthenticated:
-          return (
-            <div>
-              {error && <p><span>An error occurred during authentication, please try again!</span></p>}
-              <p>
-                <span>Hey stranger, you look new!</span>
-                <button onClick={login}>Login</button>
-              </p>
-            </div>
-          );
-        case AuthenticationState.InProgress:
-          return (<p>Authenticating...</p>);
-      }
-    }
-  }
-</AzureAD> */}
