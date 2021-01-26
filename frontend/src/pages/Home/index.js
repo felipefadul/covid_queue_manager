@@ -8,6 +8,9 @@ import { authProvider } from "../../authProvider";
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
+//ID grupo Medicos:       21af395d-6321-4465-9a48-e1aa65178e01
+//ID grupo Enfermeiros:   77cdb68f-6363-41de-93e8-9e15f2938471
+
 export default function Home() {
   const history = useHistory();
   const [loadingState, setLoadingState] = useState(false);
