@@ -21,7 +21,7 @@ export default function Home() {
     setLoadingState(false);
     switch (authProvider.authenticationState) {
       case AuthenticationState.Authenticated:
-        history.push('/history');
+        history.push('/historico');
         setLoadingState(false);
         break;
       case AuthenticationState.Unauthenticated:
