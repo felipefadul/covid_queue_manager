@@ -1,10 +1,16 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
 import { authProvider } from "../../authProvider";
 export default function History() {
+  const history = useHistory();
+
+  function handleScreening() {
+    history.push('/triagem');
+  }
 
   return (
     <S.HistoryContainer>
@@ -17,7 +23,7 @@ export default function History() {
           <S.Button>
             CHAMAR PRÓXIMO PACIENTE
           </S.Button>
-          <S.Button>
+          <S.Button onClick = { handleScreening }>
             REALIZAR TRIAGEM
           </S.Button>
         </S.ButtonArea>
