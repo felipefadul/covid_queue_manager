@@ -13,7 +13,7 @@ export default function History() {
   function handleScreening() {
     history.push('/triagem');
   }
-  const accountInfo = JSON.parse(localStorage.getItem('accountInfo'));
+  const accountName = localStorage.getItem('accountName');
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
   if (authenticationState === AuthenticationState.Authenticated) {
     return (
@@ -22,7 +22,7 @@ export default function History() {
           Sistema de Triagem - Coronavírus
         </S.AppTitle>
         <S.Content>
-          Bem-vindo ao Histórico, {accountInfo.account.name}!
+          Bem-vindo ao Histórico, {accountName}!
           <S.ButtonArea>
             <S.Button>
               CHAMAR PRÓXIMO PACIENTE
