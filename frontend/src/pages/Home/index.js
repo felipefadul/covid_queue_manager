@@ -34,6 +34,8 @@ export default function Home() {
       default:
         setLoadingState(false);
     }
+    localStorage.setItem('authenticationState', JSON.stringify(authProvider.authenticationState));
+    localStorage.setItem('accountInfo', JSON.stringify(authProvider.getAccountInfo()));
   }
 
   return (
