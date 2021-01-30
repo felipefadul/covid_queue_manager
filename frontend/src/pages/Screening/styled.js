@@ -71,10 +71,6 @@ export const SectionTitle = styled.h3`
   font-weight: bold;
   font-size: 1.3rem;
 
-  &:nth-child(4) {
-    margin-top: 2rem;
-  }
-
   @media(max-width: 960px) {
     font-size: 1rem;
   }
