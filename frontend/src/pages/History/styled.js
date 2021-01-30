@@ -9,7 +9,7 @@ export const HistoryContainer = styled.div`
   height: 100vh;
 `;
 
-export const AppTitle = styled.div`
+export const AppTitle = styled.h1`
   color: #004D00;
   text-align: center;
   font-style: normal;

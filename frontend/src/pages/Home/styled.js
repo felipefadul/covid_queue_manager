@@ -23,7 +23,7 @@ export const Content = styled.div`
   }
 `;
 
-export const AppTitle = styled.div`
+export const AppTitle = styled.h1`
   color: #004D00;
   text-align: center;
   font-style: normal;
