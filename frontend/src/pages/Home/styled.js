@@ -18,7 +18,7 @@ export const Content = styled.div`
   padding: 2rem 3rem 3rem 3rem;
   margin: 1rem;
 
-  @media(max-width: 800px) {
+  @media(max-width: 960px) {
     padding: 1.5rem 2.5rem 2.5rem 2.5rem;
   }
 `;
@@ -30,7 +30,7 @@ export const AppTitle = styled.h1`
   font-weight: bold;
   font-size: 2rem;
 
-  @media(max-width: 800px) {
+  @media(max-width: 960px) {
     font-size: 1.5rem;
   }
 `;

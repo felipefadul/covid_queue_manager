@@ -16,7 +16,7 @@ export const AppTitle = styled.h1`
   font-weight: bold;
   font-size: 2rem;
 
-  @media(max-width: 800px) {
+  @media(max-width: 960px) {
     font-size: 1.2rem;
   }
 `;
@@ -31,7 +31,7 @@ export const Content = styled.div`
   padding: 2rem 3rem;
   margin: 1rem;
 
-  @media(max-width: 800px) {
+  @media(max-width: 960px) {
     padding: 1.5rem 2.5rem;
   }
 `;
@@ -40,7 +40,7 @@ export const ButtonArea = styled.div`
   display: flex;
   align-items: center;
 
-  @media(max-width: 800px) {
+  @media(max-width: 960px) {
     display: flex;
     flex-direction: column;
   }
@@ -62,7 +62,7 @@ export const Button = styled.button`
     background-color: #006600;
   }
 
-  @media(max-width: 800px) {
+  @media(max-width: 960px) {
     font-size: .9rem;
     margin: 0.5rem 0;
     height: 2.8rem;
