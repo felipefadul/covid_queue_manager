@@ -1,1 +1,1 @@
-const connection = require ('../../mysql/connection');
+const connection = require ('../../postgre/connection');
