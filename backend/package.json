@@ -1,11 +1,25 @@
 {
-  "name": "backend",
+  "name": "aula1_backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "index.js"
+    "start": "nodemon src/app.js",
+    "test": "cross-env NODE_ENV=test jest"
   },
+  "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "celebrate": "^12.1.2",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "jest": "^26.1.0",
+    "supertest": "^4.0.2"
+  }
 }
