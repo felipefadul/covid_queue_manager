@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: 'mysqlserver-pi-instance.ck1evgdwmyzg.sa-east-1.rds.amazonaws.com',
   user: 'admin',
-  password: 'password',
+  password: 'p4h*-7CHBK!6Sj&X',
   database: 'pacients_database'
 });
 connection.connect((err) => {
