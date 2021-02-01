@@ -1,8 +1,13 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
+  port: 5432,
 });
+
 
 const db = pool.on('connect', () => {
   // console.error(err);
@@ -16,41 +21,36 @@ class Postgres {
 
   async criaBanco() {
     const dml = `
-      CREATE TABLE IF NOT EXISTS PENDENTES (
-        TRANSACTION_ID varchar(255) PRIMARY KEY,
-        ORDER_ID varchar(255),
-        LOGISTIC_ID UUID NOT NULL,
-        PRICE INTEGER,
-        NUMERO_COLETA VARCHAR(255)
+      CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+      create table if not exists pacientes(
+        paciente_id uuid DEFAULT uuid_generate_v4() not null,
+        nome varchar(255) not Null,
+        idade int not null,
+        triagem_id uuid, 
+        primary key (paciente_id)
       );
-      CREATE TABLE IF NOT EXISTS REALIZADOS (
-        TRANSACTION_ID varchar(255),
-        ORDER_ID varchar(255),
-        LOGISTIC_ID UUID,
-        PRICE INTEGER,
-        NUMERO_COLETA VARCHAR(255)
+      CREATE TABLE IF NOT EXISTS perguntas_triagem (
+        pergunta_id uuid DEFAULT uuid_generate_v4() not null,
+        pergunta varchar(255) not null,
+        primary key (pergunta_id)
       );`;
 
       await db.query(dml);
   }
 
-  insere(transaction_id, order_id, logistic_id, price, numero_coleta) {
-    return this.insereTabela(transaction_id, order_id, logistic_id, price, numero_coleta, 'PENDENTES');
+  insereTabelaPacientes(paciente_id, nome, idade, triagem_id) {
+    return this.insereTabela(paciente_id, nome, idade, triagem_id, 'pacientes');
   }
 
-  insereTabelaRealizados(transaction_id, order_id, logistic_id, price, numero_coleta) {
-    return this.insereTabela(transaction_id, order_id, logistic_id, price, numero_coleta, 'REALIZADOS');
-  }
-
-  async insereTabela(transaction_id, order_id, logistic_id, price, numero_coleta, tabela) {
+  async insereTabela(paciente_id, nome, idade, triagem_id, tabela) {
     const { rows } = await db.query(
-      `INSERT INTO ${tabela} (TRANSACTION_ID, ORDER_ID, LOGISTIC_ID, PRICE, NUMERO_COLETA) VALUES ($1, $2, $3, $4, $5)`,
-      [transaction_id, order_id, logistic_id, price, numero_coleta]);
+      `INSERT INTO ${tabela} (paciente_id, nome, idade, triagem_id) VALUES ($1, $2, $3, $4)`,
+      [paciente_id, nome, idade, triagem_id]);
       await db.query("commit;");
     return rows;
   }
-
-  async leTodos() {
+}
+  /* async leTodos() {
     const { rows } = await db.query("SELECT TRANSACTION_ID, ORDER_ID, LOGISTIC_ID, PRICE FROM PENDENTES");
     return rows;
   }
@@ -73,6 +73,6 @@ class Postgres {
     await db.query("commit;");
     return rows
   }
-}
+} */
 
 module.exports = new Postgres();
