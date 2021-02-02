@@ -45,6 +45,8 @@ export const PacientScreeningContainer = styled.div`
   padding: 1rem 1rem 1rem 1rem;
   border-radius: 1rem;
   max-width: 40rem;
+  overflow-y: auto;
+  max-height: 40rem;
 
   @media(max-width: 960px) {
     max-width: 15rem;
