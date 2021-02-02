@@ -50,6 +50,7 @@ export const PacientScreeningContainer = styled.div`
 
   @media(max-width: 960px) {
     max-width: 15rem;
+    max-height: 20rem;
   }
 `
 
