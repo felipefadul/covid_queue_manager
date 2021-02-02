@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
@@ -76,6 +77,12 @@ export default function Screening() {
   const handleRiskFactorChange = (event) => {
     setCheckedRiskFactor({ ...checkedRiskFactor, [event.target.name]: event.target.checked });
   };
+
+  const history = useHistory();
+
+  function handleNavigation() {
+    history.push('/historico');
+  }
 
   return (
     <S.ScreeningContainer>
@@ -290,11 +297,11 @@ export default function Screening() {
           </div>
         </S.PacientScreeningContainer>
         <S.ButtonArea>
-          <S.Button>
-            CHAMAR PRÓXIMO PACIENTE
+          <S.Button onClick = { handleNavigation }>
+            VOLTAR
           </S.Button>
           <S.Button>
-            REALIZAR TRIAGEM
+            CADASTRAR
           </S.Button>
         </S.ButtonArea>
       </S.Content>
