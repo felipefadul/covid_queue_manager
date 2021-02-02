@@ -1,18 +1,28 @@
+//const uuidV4 = require ('uuid');
+const uuidV4 = require('uuid').v4;
 const { Pool } = require('pg');
+const { config } = require('dotenv');
+const { join } = require('path');
+const { ok } = require('assert');
 
-const pool = new Pool({
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  port: 5432,
+const env = process.env.NODE_ENV || "dev"; // Por default, é "dev".
+ok(env === "prod" || env === "dev", 'A env é inválida! Deve ser "prod" ou "dev"');
+
+const configPath = join(__dirname, '../config', `.env.${env}`);
+config({
+  path: configPath
 });
 
+const connectionString = process.env.DATABASEURL; 
+
+const pool = new Pool({
+  connectionString,
+}); 
 
 const db = pool.on('connect', () => {
   // console.error(err);
 });
-
+ 
 
 class Postgres {
   constructor() {
@@ -23,7 +33,7 @@ class Postgres {
     const dml = `
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
       create table if not exists pacientes(
-        paciente_id uuid DEFAULT uuid_generate_v4() not null,
+        pacient_id uuid DEFAULT uuid_generate_v4() not null,
         nome varchar(255) not Null,
         idade int not null,
         triagem_id uuid, 
@@ -38,14 +48,14 @@ class Postgres {
       await db.query(dml);
   }
 
-  insereTabelaPacientes(paciente_id, nome, idade, triagem_id) {
-    return this.insereTabela(paciente_id, nome, idade, triagem_id, 'pacientes');
+  insereTabelaPacientes(nome, idade, triagem_id) {
+    return this.insereTabela(uuidV4(), nome, idade, triagem_id, 'pacientes');
   }
 
-  async insereTabela(paciente_id, nome, idade, triagem_id, tabela) {
+  async insereTabela( pacient_id, nome, idade, triagem_id, tabela ) {
     const { rows } = await db.query(
-      `INSERT INTO ${tabela} (paciente_id, nome, idade, triagem_id) VALUES ($1, $2, $3, $4)`,
-      [paciente_id, nome, idade, triagem_id]);
+      `INSERT INTO ${tabela} (pacient_id, nome, idade, triagem_id) VALUES ($1, $2, $3, $4)`,
+      [pacient_id, nome, idade, triagem_id]);
       await db.query("commit;");
     return rows;
   }

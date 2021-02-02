@@ -3,6 +3,7 @@ const { join } = require('path');
 const { ok } = require('assert');
 const express = require('express');
 const cors = require('cors');
+const db = require('./postgre/connection');
 
 const routes = require('./routes');
 
@@ -20,12 +21,10 @@ app.use(express.json());
 app.use(cors());
 app.use(routes);
 
-app.get('/', function (req, res) { //endereco da requisicao onde e retornado hello world
-  res.send('Hello World')
-})
-
 const SERVER_PORT = process.env.SERVER_PORT;
 
+ 
 app.listen(SERVER_PORT, () => {
+  //db.insereTabelaPacientes('Felipe Fadul', 2, null);
   console.log(`Servidor rodando na porta ${SERVER_PORT}! :D`);
 }); //execucao do servidor
