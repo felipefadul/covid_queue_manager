@@ -44,29 +44,29 @@ export default function Screening() {
   const classes = useStyles();
 
   const [checkedSymptom, setCheckedSymptom] = useState({
-    checkedSymptom1: true,
-    checkedSymptom2: true,
-    checkedSymptom3: true,
-    checkedSymptom4: true,
-    checkedSymptom5: true,
-    checkedSymptom6: true,
-    checkedSymptom7: true,
-    checkedSymptom8: true,
-    checkedSymptom9: true,
-    checkedSymptom10: true,
-    checkedSymptom11: true,
-    checkedSymptom12: true,
+    checkedSymptom1: false,
+    checkedSymptom2: false,
+    checkedSymptom3: false,
+    checkedSymptom4: false,
+    checkedSymptom5: false,
+    checkedSymptom6: false,
+    checkedSymptom7: false,
+    checkedSymptom8: false,
+    checkedSymptom9: false,
+    checkedSymptom10: false,
+    checkedSymptom11: false,
+    checkedSymptom12: false,
   });
 
   const [checkedRiskFactor, setCheckedRiskFactor] = useState({
-    checkedRiskFactor1: true,
-    checkedRiskFactor2: true,
-    checkedRiskFactor3: true,
-    checkedRiskFactor4: true,
-    checkedRiskFactor5: true,
-    checkedRiskFactor6: true,
-    checkedRiskFactor7: true,
-    checkedRiskFactor8: true
+    checkedRiskFactor1: false,
+    checkedRiskFactor2: false,
+    checkedRiskFactor3: false,
+    checkedRiskFactor4: false,
+    checkedRiskFactor5: false,
+    checkedRiskFactor6: false,
+    checkedRiskFactor7: false,
+    checkedRiskFactor8: false
   });
 
   const handleSymptomChange = (event) => {
