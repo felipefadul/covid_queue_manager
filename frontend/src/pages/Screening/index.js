@@ -14,6 +14,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import green from '@material-ui/core/colors/green';
 
+import Unauthorized from '../Unauthorized';
+import { AuthenticationState } from 'react-aad-msal';
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -127,228 +130,238 @@ export default function Screening() {
 
   }
 
-  return (
-    <S.ScreeningContainer>
-      <S.AppTitle>
-        Sistema de Triagem - Coronavírus
-      </S.AppTitle>
-      <S.Content>
-        <S.PacientScreeningContainer>
-          <S.PageTitle>
-            Triagem do Paciente
-          </S.PageTitle>
-          <S.SectionTitle>
-            Dados Pessoais
-          </S.SectionTitle>
-          <div className={classes.root}>
-            <Grid container spacing={3}>
-              <Grid item>
-                <ThemeProvider theme={theme}>
-                  <TextField id="outlined-basic" className={classes.inputText} value={pacientName} onChange={e => setPacientName(e.target.value)} label="Nome" variant="outlined" />
-                </ThemeProvider>
+  const accountName = localStorage.getItem('accountName');
+  const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
+
+  if (authenticationState === AuthenticationState.Authenticated) {
+    return (
+      <S.ScreeningContainer>
+        <S.AppTitle>
+          Sistema de Triagem - Coronavírus
+        </S.AppTitle>
+        <S.Content>
+          <S.PacientScreeningContainer>
+            <S.PageTitle>
+              Triagem do Paciente
+            </S.PageTitle>
+            <S.SectionTitle>
+              Dados Pessoais
+            </S.SectionTitle>
+            <div className={classes.root}>
+              <Grid container spacing={3}>
+                <Grid item>
+                  <ThemeProvider theme={theme}>
+                    <TextField id="outlined-basic" className={classes.inputText} value={pacientName} onChange={e => setPacientName(e.target.value)} label="Nome" variant="outlined" />
+                  </ThemeProvider>
+                </Grid>
+                <Grid item>
+                  <ThemeProvider theme={theme}>
+                    <TextField id="outlined-basic" className={classes.inputText} value={pacientAge} onChange={e => setPacientAge(e.target.value)} label="Idade" variant="outlined" />
+                  </ThemeProvider>
+                </Grid>
+                <Grid item>
+                  <ThemeProvider theme={theme}>
+                    <TextField id="outlined-basic" className={classes.inputText} value={pacientWeight} onChange={e => setPacientWeight(e.target.value)} label="Peso (kg)" variant="outlined" />
+                  </ThemeProvider>
+                </Grid>
+                <Grid item>
+                  <ThemeProvider theme={theme}>
+                    <TextField id="outlined-basic" className={classes.inputText} value={pacientHeight} onChange={e => setPacientHeight(e.target.value)} label="Altura (m)" variant="outlined" />
+                  </ThemeProvider>
+                </Grid>
               </Grid>
-              <Grid item>
-                <ThemeProvider theme={theme}>
-                  <TextField id="outlined-basic" className={classes.inputText} value={pacientAge} onChange={e => setPacientAge(e.target.value)} label="Idade" variant="outlined" />
-                </ThemeProvider>
+            </div>
+            <S.SectionTitle style={{marginTop: '2rem'}}>
+              Parte A - Quais sintomas o paciente apresenta?
+            </S.SectionTitle>
+            <div className={classes.root}>
+              <Grid container spacing={3}>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom1} onChange={handleSymptomChange} name="checkedSymptom1" /></div>}
+                    label="Febre"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom2} onChange={handleSymptomChange} name="checkedSymptom2" /></div>}
+                    label="Dor/iritação na garganta"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom3} onChange={handleSymptomChange} name="checkedSymptom3" /></div>}
+                    label="Dor de cabeça"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom4} onChange={handleSymptomChange} name="checkedSymptom4" /></div>}
+                    label="Tosse seca ou com pouca secreção"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom5} onChange={handleSymptomChange} name="checkedSymptom5" /></div>}
+                    label="Secreção nasal/espirros"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom6} onChange={handleSymptomChange} name="checkedSymptom6" /></div>}
+                    label="Dificuldade respiratória/falta de ar"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom7} onChange={handleSymptomChange} name="checkedSymptom7" /></div>}
+                    label="Dores no corpo"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom8} onChange={handleSymptomChange} name="checkedSymptom8" /></div>}
+                    label="Diarreia"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom9} onChange={handleSymptomChange} name="checkedSymptom9" /></div>}
+                    label="Perda/alteração de olfato"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom10} onChange={handleSymptomChange} name="checkedSymptom10" /></div>}
+                    label="Perda/alteração do paladar"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom11} onChange={handleSymptomChange} name="checkedSymptom11" /></div>}
+                    label="Cansaço"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom12} onChange={handleSymptomChange} name="checkedSymptom12" /></div>}
+                    label="Náusea/enjoo"
+                    labelPlacement="end"
+                  />
+                </Grid>
               </Grid>
-              <Grid item>
-                <ThemeProvider theme={theme}>
-                  <TextField id="outlined-basic" className={classes.inputText} value={pacientWeight} onChange={e => setPacientWeight(e.target.value)} label="Peso (kg)" variant="outlined" />
-                </ThemeProvider>
+            </div>
+            <S.SectionTitle style={{marginTop: '1rem'}}>
+              Parte B - Quais fatores de risco o paciente possui?
+            </S.SectionTitle>
+            <div className={classes.root}>
+              <Grid container spacing={3}>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor1} onChange={handleRiskFactorChange} name="checkedRiskFactor1" /></div>}
+                    label="Hipertensão"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor2} onChange={handleRiskFactorChange} name="checkedRiskFactor2" /></div>}
+                    label="Diabetes"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor3} onChange={handleRiskFactorChange} name="checkedRiskFactor3" /></div>}
+                    label="Doença respiratória pré-existente (Ex.: Asma, ...)"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor4} onChange={handleRiskFactorChange} name="checkedRiskFactor4" /></div>}
+                    label="Obesidade"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor5} onChange={handleRiskFactorChange} name="checkedRiskFactor5" /></div>}
+                    label="Problemas no coração (Ex.: angina, insuficiência cardíaca, ...)"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor6} onChange={handleRiskFactorChange} name="checkedRiskFactor6" /></div>}
+                    label="Câncer"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor7} onChange={handleRiskFactorChange} name="checkedRiskFactor7" /></div>}
+                    label="Doença renal (nos rins)"
+                    labelPlacement="end"
+                  />
+                </Grid>
+                <Grid item md={6} sm={12}>
+                  <FormControlLabel
+                    style={{ display: 'table' }}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor8} onChange={handleRiskFactorChange} name="checkedRiskFactor8" /></div>}
+                    label="Maior de 60 anos"
+                    labelPlacement="end"
+                  />
+                </Grid>
               </Grid>
-              <Grid item>
-                <ThemeProvider theme={theme}>
-                  <TextField id="outlined-basic" className={classes.inputText} value={pacientHeight} onChange={e => setPacientHeight(e.target.value)} label="Altura (m)" variant="outlined" />
-                </ThemeProvider>
-              </Grid>
-            </Grid>
-          </div>
-          <S.SectionTitle style={{marginTop: '2rem'}}>
-            Parte A - Quais sintomas o paciente apresenta?
-          </S.SectionTitle>
-          <div className={classes.root}>
-            <Grid container spacing={3}>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom1} onChange={handleSymptomChange} name="checkedSymptom1" /></div>}
-                  label="Febre"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom2} onChange={handleSymptomChange} name="checkedSymptom2" /></div>}
-                  label="Dor/iritação na garganta"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom3} onChange={handleSymptomChange} name="checkedSymptom3" /></div>}
-                  label="Dor de cabeça"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom4} onChange={handleSymptomChange} name="checkedSymptom4" /></div>}
-                  label="Tosse seca ou com pouca secreção"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom5} onChange={handleSymptomChange} name="checkedSymptom5" /></div>}
-                  label="Secreção nasal/espirros"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom6} onChange={handleSymptomChange} name="checkedSymptom6" /></div>}
-                  label="Dificuldade respiratória/falta de ar"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom7} onChange={handleSymptomChange} name="checkedSymptom7" /></div>}
-                  label="Dores no corpo"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom8} onChange={handleSymptomChange} name="checkedSymptom8" /></div>}
-                  label="Diarreia"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom9} onChange={handleSymptomChange} name="checkedSymptom9" /></div>}
-                  label="Perda/alteração de olfato"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom10} onChange={handleSymptomChange} name="checkedSymptom10" /></div>}
-                  label="Perda/alteração do paladar"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom11} onChange={handleSymptomChange} name="checkedSymptom11" /></div>}
-                  label="Cansaço"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom12} onChange={handleSymptomChange} name="checkedSymptom12" /></div>}
-                  label="Náusea/enjoo"
-                  labelPlacement="end"
-                />
-              </Grid>
-            </Grid>
-          </div>
-          <S.SectionTitle style={{marginTop: '1rem'}}>
-            Parte B - Quais fatores de risco o paciente possui?
-          </S.SectionTitle>
-          <div className={classes.root}>
-            <Grid container spacing={3}>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor1} onChange={handleRiskFactorChange} name="checkedRiskFactor1" /></div>}
-                  label="Hipertensão"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor2} onChange={handleRiskFactorChange} name="checkedRiskFactor2" /></div>}
-                  label="Diabetes"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor3} onChange={handleRiskFactorChange} name="checkedRiskFactor3" /></div>}
-                  label="Doença respiratória pré-existente (Ex.: Asma, ...)"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor4} onChange={handleRiskFactorChange} name="checkedRiskFactor4" /></div>}
-                  label="Obesidade"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor5} onChange={handleRiskFactorChange} name="checkedRiskFactor5" /></div>}
-                  label="Problemas no coração (Ex.: angina, insuficiência cardíaca, ...)"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor6} onChange={handleRiskFactorChange} name="checkedRiskFactor6" /></div>}
-                  label="Câncer"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor7} onChange={handleRiskFactorChange} name="checkedRiskFactor7" /></div>}
-                  label="Doença renal (nos rins)"
-                  labelPlacement="end"
-                />
-              </Grid>
-              <Grid item md={6} sm={12}>
-                <FormControlLabel
-                  style={{ display: 'table' }}
-                  control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor8} onChange={handleRiskFactorChange} name="checkedRiskFactor8" /></div>}
-                  label="Maior de 60 anos"
-                  labelPlacement="end"
-                />
-              </Grid>
-            </Grid>
-          </div>
-        </S.PacientScreeningContainer>
-        <S.ButtonArea>
-          <S.Button onClick = { handleNavigationBack }>
-            VOLTAR
-          </S.Button>
-          <S.Button onClick = { handleRegister }>
-            CADASTRAR
-          </S.Button>
-        </S.ButtonArea>
-      </S.Content>
-      <GlobalStyle />
-    </S.ScreeningContainer>
-  );
+            </div>
+          </S.PacientScreeningContainer>
+          <S.ButtonArea>
+            <S.Button onClick = { handleNavigationBack }>
+              VOLTAR
+            </S.Button>
+            <S.Button onClick = { handleRegister }>
+              CADASTRAR
+            </S.Button>
+          </S.ButtonArea>
+        </S.Content>
+        <GlobalStyle />
+      </S.ScreeningContainer>
+    );
+  }
+  else {
+    return(
+      <Unauthorized />
+    )
+  }
 }

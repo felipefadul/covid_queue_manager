@@ -21,6 +21,8 @@ export default function Home() {
     setLoadingState(false);
     switch (authProvider.authenticationState) {
       case AuthenticationState.Authenticated:
+        localStorage.setItem('authenticationState', JSON.stringify(authProvider.authenticationState));
+        localStorage.setItem('accountName', authProvider.getAccountInfo().account.name);
         history.push('/historico');
         setLoadingState(false);
         break;
@@ -34,8 +36,6 @@ export default function Home() {
       default:
         setLoadingState(false);
     }
-    localStorage.setItem('authenticationState', JSON.stringify(authProvider.authenticationState));
-    localStorage.setItem('accountName', authProvider.getAccountInfo().account.name);
   }
 
   return (
