@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import api from '../../services/api';
+
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
@@ -78,10 +80,47 @@ export default function Screening() {
     setCheckedRiskFactor({ ...checkedRiskFactor, [event.target.name]: event.target.checked });
   };
 
+  const [pacientName, setPacientName] = useState('');
+  const [pacientAge, setPacientAge] = useState('');
+  const [pacientWeight, setPacientWeight] = useState('');
+  const [pacientHeight, setPacientHeight] = useState('');
+
+  const pacientData = {
+    personalData: {
+      pacientName,
+      pacientAge,
+      pacientWeight,
+      pacientHeight
+    },
+    checkedSymptom,
+    checkedRiskFactor
+  }
+
+
   const history = useHistory();
 
   function handleNavigation() {
     history.push('/historico');
+  }
+
+  async function handleRegister() {
+
+    const data = {
+      nome: pacientData.personalData.pacientName,
+      idade: pacientData.personalData.pacientAge,
+      peso: pacientData.personalData.pacientWeight,
+      altura: pacientData.personalData.pacientHeight
+    }
+
+    try {
+      const response = await api.post('/api/pacientes/cadastro', data);
+
+      if (response.status === 200)
+        alert('Paciente Cadastrado com sucesso!');
+    } catch (err) {
+      alert('Falha no cadastro, tente novamente.');
+    }
+
   }
 
   return (
@@ -101,22 +140,22 @@ export default function Screening() {
             <Grid container spacing={3}>
               <Grid item>
                 <ThemeProvider theme={theme}>
-                  <TextField id="outlined-basic" className={classes.inputText} label="Nome" variant="outlined" />
+                  <TextField id="outlined-basic" className={classes.inputText} value={pacientName} onChange={e => setPacientName(e.target.value)} label="Nome" variant="outlined" />
                 </ThemeProvider>
               </Grid>
               <Grid item>
                 <ThemeProvider theme={theme}>
-                  <TextField id="outlined-basic" className={classes.inputText} label="Idade" variant="outlined" />
+                  <TextField id="outlined-basic" className={classes.inputText} value={pacientAge} onChange={e => setPacientAge(e.target.value)} label="Idade" variant="outlined" />
                 </ThemeProvider>
               </Grid>
               <Grid item>
                 <ThemeProvider theme={theme}>
-                  <TextField id="outlined-basic" className={classes.inputText} label="Peso (kg)" variant="outlined" />
+                  <TextField id="outlined-basic" className={classes.inputText} value={pacientWeight} onChange={e => setPacientWeight(e.target.value)} label="Peso (kg)" variant="outlined" />
                 </ThemeProvider>
               </Grid>
               <Grid item>
                 <ThemeProvider theme={theme}>
-                  <TextField id="outlined-basic" className={classes.inputText} label="Altura (cm)" variant="outlined" />
+                  <TextField id="outlined-basic" className={classes.inputText} value={pacientHeight} onChange={e => setPacientHeight(e.target.value)} label="Altura (m)" variant="outlined" />
                 </ThemeProvider>
               </Grid>
             </Grid>
@@ -300,7 +339,7 @@ export default function Screening() {
           <S.Button onClick = { handleNavigation }>
             VOLTAR
           </S.Button>
-          <S.Button>
+          <S.Button onClick = { handleRegister }>
             CADASTRAR
           </S.Button>
         </S.ButtonArea>
