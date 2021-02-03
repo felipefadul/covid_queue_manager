@@ -99,7 +99,7 @@ export default function Screening() {
 
   const history = useHistory();
 
-  function handleNavigation() {
+  function handleNavigationBack() {
     history.push('/historico');
   }
 
@@ -116,7 +116,11 @@ export default function Screening() {
       const response = await api.post('/api/pacientes/cadastro', data);
 
       if (response.status === 200)
+      {
         alert('Paciente cadastrado com sucesso!');
+        handleNavigationBack();
+      }
+
     } catch (err) {
       alert(`Falha no cadastro!\nPreencha todos os campos de Dados Pessoais e tente novamente.`);
     }
@@ -336,7 +340,7 @@ export default function Screening() {
           </div>
         </S.PacientScreeningContainer>
         <S.ButtonArea>
-          <S.Button onClick = { handleNavigation }>
+          <S.Button onClick = { handleNavigationBack }>
             VOLTAR
           </S.Button>
           <S.Button onClick = { handleRegister }>
