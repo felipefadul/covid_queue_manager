@@ -22,7 +22,7 @@ const pool = new Pool({
 const db = pool.on('connect', () => {
   // console.error(err);
 });
- 
+
 
 class Postgres {
   constructor() {
@@ -36,8 +36,10 @@ class Postgres {
         pacient_id uuid DEFAULT uuid_generate_v4() not null,
         nome varchar(255) not Null,
         idade int not null,
+        peso NUMERIC(5, 2) not null,
+        altura NUMERIC(3, 2) not null,
         triagem_id uuid, 
-        primary key (paciente_id)
+        primary key (pacient_id)
       );
       CREATE TABLE IF NOT EXISTS perguntas_triagem (
         pergunta_id uuid DEFAULT uuid_generate_v4() not null,
@@ -46,16 +48,16 @@ class Postgres {
       );`;
 
       await db.query(dml);
+  } 
+ 
+  insereTabelaPacientes(nome, idade, peso, altura, triagem_id) {
+    return this.insereTabela(uuidV4(), nome, idade, peso, altura, triagem_id, 'pacientes');
   }
 
-  insereTabelaPacientes(nome, idade, triagem_id) {
-    return this.insereTabela(uuidV4(), nome, idade, triagem_id, 'pacientes');
-  }
-
-  async insereTabela( pacient_id, nome, idade, triagem_id, tabela ) {
+  async insereTabela( pacient_id, nome, idade, peso, altura, triagem_id, tabela ) {
     const { rows } = await db.query(
-      `INSERT INTO ${tabela} (pacient_id, nome, idade, triagem_id) VALUES ($1, $2, $3, $4)`,
-      [pacient_id, nome, idade, triagem_id]);
+      `INSERT INTO ${tabela} (pacient_id, nome, idade, peso, altura, triagem_id) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [pacient_id, nome, idade, peso, altura, triagem_id]);
       await db.query("commit;");
     return rows;
   }

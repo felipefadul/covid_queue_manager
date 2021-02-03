@@ -3,8 +3,6 @@ const { join } = require('path');
 const { ok } = require('assert');
 const express = require('express');
 const cors = require('cors');
-const db = require('./postgre/connection');
-
 const routes = require('./routes');
 
 const env = process.env.NODE_ENV || "dev"; // Por default, é "dev".
@@ -23,8 +21,26 @@ app.use(routes);
 
 const SERVER_PORT = process.env.SERVER_PORT;
 
+/* const options = {
+  method: 'post',
+  url: 'http://localhost:3333/api/pacientes/cadastro',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  data: {
+    nome: 'Finn',
+    idade: '33',
+    peso: '71.2',
+    altura: '1.4'
+  }
+};
+axios(options)
+.then((response) => {
+  console.log(response);
+}, (error) => {
+  console.log(error);
+}); */
  
 app.listen(SERVER_PORT, () => {
-  //db.insereTabelaPacientes('Felipe Fadul', 2, null);
   console.log(`Servidor rodando na porta ${SERVER_PORT}! :D`);
 }); //execucao do servidor
