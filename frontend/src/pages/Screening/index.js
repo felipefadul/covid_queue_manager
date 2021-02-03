@@ -116,9 +116,9 @@ export default function Screening() {
       const response = await api.post('/api/pacientes/cadastro', data);
 
       if (response.status === 200)
-        alert('Paciente Cadastrado com sucesso!');
+        alert('Paciente cadastrado com sucesso!');
     } catch (err) {
-      alert('Falha no cadastro, tente novamente.');
+      alert(`Falha no cadastro!\nPreencha todos os campos de Dados Pessoais e tente novamente.`);
     }
 
   }
