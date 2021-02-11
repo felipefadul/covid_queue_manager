@@ -112,7 +112,11 @@ export default function Screening() {
       nome: pacientData.personalData.pacientName,
       idade: pacientData.personalData.pacientAge,
       peso: pacientData.personalData.pacientWeight,
-      altura: pacientData.personalData.pacientHeight
+      altura: pacientData.personalData.pacientHeight,
+      json_respostas: {
+        sintomas: pacientData.checkedSymptom,
+        fatoresRisco: pacientData.checkedRiskFactor
+      }
     }
 
     try {

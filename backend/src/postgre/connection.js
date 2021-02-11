@@ -23,7 +23,6 @@ const db = pool.on('connect', () => {
   // console.error(err);
 });
 
-
 class Postgres {
   constructor() {
     this.criaBanco();
@@ -33,31 +32,53 @@ class Postgres {
     const dml = `
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
       create table if not exists pacientes(
-        pacient_id uuid DEFAULT uuid_generate_v4() not null,
+        pacient_id uuid DEFAULT uuid_generate_v4() primary key not null,
         nome varchar(255) not Null,
         idade int not null,
         peso NUMERIC(5, 2) not null,
         altura NUMERIC(3, 2) not null,
-        triagem_id uuid, 
-        primary key (pacient_id)
+        triagem_id uuid
       );
       CREATE TABLE IF NOT EXISTS perguntas_triagem (
-        pergunta_id uuid DEFAULT uuid_generate_v4() not null,
-        pergunta varchar(255) not null,
-        primary key (pergunta_id)
+        pergunta_id uuid DEFAULT uuid_generate_v4() primary key not null,
+        json_perguntas json not null
+      );
+      CREATE TABLE IF NOT EXISTS respostas_triagem (
+        triagem_id uuid DEFAULT uuid_generate_v4() primary key not null,
+        json_respostas json not null
+      );
+      CREATE TABLE IF NOT EXISTS historico (
+        historico_id uuid DEFAULT uuid_generate_v4() primary key not null,
+        pacient_id uuid not null,
+        nome varchar(255) not Null,
+        nome_enfermeira varchar(255) not Null,
+        nome_medico varchar(255) not Null,
+        date timestamptz DEFAULT CURRENT_TIMESTAMP not null
       );`;
 
       await db.query(dml);
   } 
- 
+  
   insereTabelaPacientes(nome, idade, peso, altura, triagem_id) {
-    return this.insereTabela(uuidV4(), nome, idade, peso, altura, triagem_id, 'pacientes');
+    return this.insereTabelaPacientesAsync(uuidV4(), nome, idade, peso, altura, triagem_id, 'pacientes');
   }
 
-  async insereTabela( pacient_id, nome, idade, peso, altura, triagem_id, tabela ) {
+  async insereTabelaPacientesAsync( pacient_id, nome, idade, peso, altura, triagem_id, tabela ) {
     const { rows } = await db.query(
       `INSERT INTO ${tabela} (pacient_id, nome, idade, peso, altura, triagem_id) VALUES ($1, $2, $3, $4, $5, $6)`,
       [pacient_id, nome, idade, peso, altura, triagem_id]);
+      await db.query("commit;");
+    return rows;
+  }
+
+  insereTabelaRespostas(triagem_id, json_respostas) {
+    return this.insereTabelaRespostasAsync(triagem_id, json_respostas, 'respostas_triagem');
+  }
+
+  async insereTabelaRespostasAsync( triagem_id, json_respostas, tabela ) {
+    const { rows } = await db.query(
+      `INSERT INTO ${tabela} (triagem_id, json_respostas) VALUES ($1, $2)`,
+      [triagem_id, json_respostas]);
       await db.query("commit;");
     return rows;
   }
