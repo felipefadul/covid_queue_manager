@@ -1,20 +1,22 @@
 const db = require ('../../postgre/connection');
 const uuidV4 = require('uuid').v4;
 
-let triagem_id = uuidV4();
-
 class CadastroPaciente {
-    constructor() { }
+  constructor() { }
   
-    async cadastrarPaciente(req, res) {
-
-      const { nome, idade, peso, altura, json_respostas } = req.body;
+  async cadastrarPaciente(req, res) {
     
-      try {
-        const { dataRespostas } = await db.inserirTabelaRespostas(triagem_id, json_respostas);
+    const { nome, idade, peso, altura, json_respostas } = req.body;
+    
+    try {
+        let triagem_id = uuidV4();
         const { dataPacientes } = await db.inserirTabelaPacientes(nome, idade, peso, altura, triagem_id);
+        const { dataRespostas } = await db.inserirTabelaRespostas(triagem_id, json_respostas);
 
-        return res.status(200).json({ dataPacientes }) && res.status(200).json({ dataRespostas });
+        return res.status(200).json({ 
+          ...dataPacientes,
+          ...dataRespostas
+        });
       } catch (err) {
         if (!err.response) {
           console.log(err);
