@@ -134,7 +134,6 @@ export default function Screening() {
 
   }
 
-  const accountName = localStorage.getItem('accountName');
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
 
   if (authenticationState === AuthenticationState.Authenticated) {
