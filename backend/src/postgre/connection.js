@@ -82,6 +82,7 @@ class Postgres {
       await db.query("commit;");
     return rows;
   }
+}
   /* async leTodos() {
     const { rows } = await db.query("SELECT TRANSACTION_ID, ORDER_ID, LOGISTIC_ID, PRICE FROM PENDENTES");
     return rows;
