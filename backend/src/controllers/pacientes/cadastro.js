@@ -6,13 +6,13 @@ let triagem_id = uuidV4();
 class CadastroPaciente {
     constructor() { }
   
-    async cadastroPaciente(req, res) {
+    async cadastrarPaciente(req, res) {
 
       const { nome, idade, peso, altura, json_respostas } = req.body;
     
       try {
-        const { dataRespostas } = await db.insereTabelaRespostas(triagem_id, json_respostas);
-        const { dataPacientes } = await db.insereTabelaPacientes(nome, idade, peso, altura, triagem_id);
+        const { dataRespostas } = await db.inserirTabelaRespostas(triagem_id, json_respostas);
+        const { dataPacientes } = await db.inserirTabelaPacientes(nome, idade, peso, altura, triagem_id);
 
         return res.status(200).json({ dataPacientes }) && res.status(200).json({ dataRespostas });
       } catch (err) {

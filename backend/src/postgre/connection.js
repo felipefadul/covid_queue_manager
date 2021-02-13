@@ -25,10 +25,10 @@ const db = pool.on('connect', () => {
 
 class Postgres {
   constructor() {
-    this.criaBanco();
+    this.criarBanco();
   }
 
-  async criaBanco() {
+  async criarBanco() {
     const dml = `
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
       create table if not exists pacientes(
@@ -45,6 +45,7 @@ class Postgres {
       );
       CREATE TABLE IF NOT EXISTS respostas_triagem (
         triagem_id uuid DEFAULT uuid_generate_v4() primary key not null,
+        classificacao varchar(255) not null,
         json_respostas json not null
       );
       CREATE TABLE IF NOT EXISTS historico (
@@ -59,11 +60,11 @@ class Postgres {
       await db.query(dml);
   } 
   
-  insereTabelaPacientes(nome, idade, peso, altura, triagem_id) {
-    return this.insereTabelaPacientesAsync(uuidV4(), nome, idade, peso, altura, triagem_id, 'pacientes');
+  inserirTabelaPacientes(nome, idade, peso, altura, triagem_id) {
+    return this.inserirTabelaPacientesAsync(uuidV4(), nome, idade, peso, altura, triagem_id, 'pacientes');
   }
 
-  async insereTabelaPacientesAsync( pacient_id, nome, idade, peso, altura, triagem_id, tabela ) {
+  async inserirTabelaPacientesAsync( pacient_id, nome, idade, peso, altura, triagem_id, tabela ) {
     const { rows } = await db.query(
       `INSERT INTO ${tabela} (pacient_id, nome, idade, peso, altura, triagem_id) VALUES ($1, $2, $3, $4, $5, $6)`,
       [pacient_id, nome, idade, peso, altura, triagem_id]);
@@ -71,11 +72,11 @@ class Postgres {
     return rows;
   }
 
-  insereTabelaRespostas(triagem_id, json_respostas) {
-    return this.insereTabelaRespostasAsync(triagem_id, json_respostas, 'respostas_triagem');
+  inserirTabelaRespostas(triagem_id, json_respostas) {
+    return this.inserirTabelaRespostasAsync(triagem_id, json_respostas, 'respostas_triagem');
   }
 
-  async insereTabelaRespostasAsync( triagem_id, json_respostas, tabela ) {
+  async inserirTabelaRespostasAsync( triagem_id, json_respostas, tabela ) {
     const { rows } = await db.query(
       `INSERT INTO ${tabela} (triagem_id, json_respostas) VALUES ($1, $2)`,
       [triagem_id, json_respostas]);
