@@ -32,7 +32,7 @@ class Postgres {
     const dml = `
       CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
       create table if not exists pacientes(
-        pacient_id uuid DEFAULT uuid_generate_v4() primary key not null,
+        paciente_id uuid DEFAULT uuid_generate_v4() primary key not null,
         nome varchar(255) not Null,
         idade int not null,
         peso NUMERIC(5, 2) not null,
@@ -45,12 +45,11 @@ class Postgres {
       );
       CREATE TABLE IF NOT EXISTS respostas_triagem (
         triagem_id uuid DEFAULT uuid_generate_v4() primary key not null,
-        classificacao varchar(255) not null,
         json_respostas json not null
       );
       CREATE TABLE IF NOT EXISTS historico (
         historico_id uuid DEFAULT uuid_generate_v4() primary key not null,
-        pacient_id uuid not null,
+        paciente_id uuid not null,
         nome varchar(255) not Null,
         nome_enfermeira varchar(255) not Null,
         nome_medico varchar(255) not Null,
@@ -64,10 +63,10 @@ class Postgres {
     return this.inserirTabelaPacientesAsync(uuidV4(), nome, idade, peso, altura, triagem_id, 'pacientes');
   }
 
-  async inserirTabelaPacientesAsync( pacient_id, nome, idade, peso, altura, triagem_id, tabela ) {
+  async inserirTabelaPacientesAsync( paciente_id, nome, idade, peso, altura, triagem_id, tabela ) {
     const { rows } = await db.query(
-      `INSERT INTO ${tabela} (pacient_id, nome, idade, peso, altura, triagem_id) VALUES ($1, $2, $3, $4, $5, $6)`,
-      [pacient_id, nome, idade, peso, altura, triagem_id]);
+      `INSERT INTO ${tabela} (paciente_id, nome, idade, peso, altura, triagem_id) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [paciente_id, nome, idade, peso, altura, triagem_id]);
       await db.query("commit;");
     return rows;
   }
@@ -83,7 +82,6 @@ class Postgres {
       await db.query("commit;");
     return rows;
   }
-}
   /* async leTodos() {
     const { rows } = await db.query("SELECT TRANSACTION_ID, ORDER_ID, LOGISTIC_ID, PRICE FROM PENDENTES");
     return rows;
