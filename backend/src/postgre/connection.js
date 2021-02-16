@@ -37,11 +37,8 @@ class Postgres {
         idade int not null,
         peso NUMERIC(5, 2) not null,
         altura NUMERIC(3, 2) not null,
-        triagem_id uuid
-      );
-      CREATE TABLE IF NOT EXISTS perguntas_triagem (
-        pergunta_id uuid DEFAULT uuid_generate_v4() primary key not null,
-        json_perguntas json not null
+        triagem_id uuid,
+        tipo_classificacao_id uuid
       );
       CREATE TABLE IF NOT EXISTS respostas_triagem (
         triagem_id uuid DEFAULT uuid_generate_v4() primary key not null,
@@ -54,19 +51,28 @@ class Postgres {
         nome_enfermeira varchar(255) not Null,
         nome_medico varchar(255) not Null,
         date timestamptz DEFAULT CURRENT_TIMESTAMP not null
-      );`;
+      );
+      CREATE TABLE IF NOT EXISTS tipo_classificacao (
+        tipo_classificacao_id uuid DEFAULT uuid_generate_v4() primary key not null,
+        descricao varchar(30) not null,
+        codigo varchar(2) not null unique
+      );
+      INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Sem Sintomas Relacionados', 'C0') ON CONFLICT (codigo) DO NOTHING;
+      INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Risco Baixo', 'C1') ON CONFLICT (codigo) DO NOTHING;
+      INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Risco Moderado', 'C2') ON CONFLICT (codigo) DO NOTHING;
+      INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Risco Alto', 'C3') ON CONFLICT (codigo) DO NOTHING;`
 
       await db.query(dml);
-  } 
+  }
   
-  inserirTabelaPacientes(nome, idade, peso, altura, triagem_id) {
-    return this.inserirTabelaPacientesAsync(uuidV4(), nome, idade, peso, altura, triagem_id, 'pacientes');
+  inserirTabelaPacientes(nome, idade, peso, altura, triagem_id, tipo_classificacao_id) {
+    return this.inserirTabelaPacientesAsync(uuidV4(), nome, idade, peso, altura, triagem_id, tipo_classificacao_id, 'pacientes');
   }
 
-  async inserirTabelaPacientesAsync( paciente_id, nome, idade, peso, altura, triagem_id, tabela ) {
+  async inserirTabelaPacientesAsync( paciente_id, nome, idade, peso, altura, triagem_id, tipo_classificacao_id, tabela ) {
     const { rows } = await db.query(
-      `INSERT INTO ${tabela} (paciente_id, nome, idade, peso, altura, triagem_id) VALUES ($1, $2, $3, $4, $5, $6)`,
-      [paciente_id, nome, idade, peso, altura, triagem_id]);
+      `INSERT INTO ${tabela} (paciente_id, nome, idade, peso, altura, triagem_id, tipo_classificacao_id) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [paciente_id, nome, idade, peso, altura, triagem_id, tipo_classificacao_id]);
       await db.query("commit;");
     return rows;
   }
@@ -84,7 +90,10 @@ class Postgres {
   }
 
   async recuperarPacientePorID(paciente_id) {
-    const { rows } = await db.query(`SELECT * FROM PACIENTES`);
+    const { rows } = await db.query(`select rt.json_respostas, tc.descricao, * from pacientes p
+                                     join respostas_triagem rt on rt.triagem_id = p.triagem_id
+                                     join tipo_classificacao tc on tc.tipo_classificacao_id = p.tipo_classificacao_id
+                                     where p.paciente_id='${paciente_id}'`);
     return rows;
   }
 }

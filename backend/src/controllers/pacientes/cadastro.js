@@ -10,7 +10,7 @@ class CadastroPaciente {
     
     try {
         let triagem_id = uuidV4();
-        const { dataPacientes } = await db.inserirTabelaPacientes(nome, idade, peso, altura, triagem_id);
+        const { dataPacientes } = await db.inserirTabelaPacientes(nome, idade, peso, altura, triagem_id, tipo_classificacao_id);
         const { dataRespostas } = await db.inserirTabelaRespostas(triagem_id, json_respostas);
 
         return res.status(200).json({ 

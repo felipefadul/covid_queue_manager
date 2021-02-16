@@ -5,10 +5,11 @@ class ConsultaPaciente {
     constructor() { }
   
     async recuperarPaciente(req, res) {
-    
+      const paciente_id = req.params.paciente_id;
+
       try {
 
-        const paciente = await db.recuperarPacientePorID('17d8206b-5b11-451f-ba92-30faf1974206');
+        const paciente = await db.recuperarPacientePorID(paciente_id);
 
         console.log('PACIENTES! ', paciente);
 
