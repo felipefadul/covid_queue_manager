@@ -11,8 +11,6 @@ class ConsultaPaciente {
 
         const paciente = await db.recuperarPacientePorID(paciente_id);
 
-        console.log('PACIENTES! ', paciente);
-
         return res.status(200).json({ paciente });
       } catch (err) {
         if (!err.response) {

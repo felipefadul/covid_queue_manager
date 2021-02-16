@@ -96,6 +96,18 @@ class Postgres {
                                      where p.paciente_id='${paciente_id}'`);
     return rows;
   }
+
+  async recuperarTipoClassificacaoPorCodigo(codigo) {
+    const { rows } = await db.query(`select tc.tipo_classificacao_id from tipo_classificacao tc
+                                     where tc.codigo = '${codigo}'`);
+    return rows;
+  }
+
+  async recuperarTipoClassificacaoPorID(tipo_classificacao_id) {
+    const { rows } = await db.query(`select tc.descricao from tipo_classificacao tc
+                                     where tc.tipo_classificacao_id = '${tipo_classificacao_id}'`);
+    return rows;
+  }
 }
   /* async leTodos() {
     const { rows } = await db.query("SELECT TRANSACTION_ID, ORDER_ID, LOGISTIC_ID, PRICE FROM PENDENTES");
