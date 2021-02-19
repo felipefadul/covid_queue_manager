@@ -11,6 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 import green from '@material-ui/core/colors/green';
 
@@ -46,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '1rem'
   }
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 export default function Screening() {
   const classes = useStyles();
 
@@ -81,6 +88,25 @@ export default function Screening() {
 
   const handleRiskFactorChange = (event) => {
     setCheckedRiskFactor({ ...checkedRiskFactor, [event.target.name]: event.target.checked });
+  };
+
+  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
+  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
+
+  const handleOpenSuccessSnackbar = () => {
+    setOpenSuccessSnackbar(true);
+  };
+
+  const handleCloseSuccessSnackbar = () => {
+    setOpenSuccessSnackbar(false);
+  };
+
+  const handleOpenErrorSnackbar = () => {
+    setOpenErrorSnackbar(true);
+  };
+
+  const handleCloseErrorSnackbar = () => {
+    setOpenErrorSnackbar(false);
   };
 
   const [pacientName, setPacientName] = useState('');
@@ -138,7 +164,7 @@ export default function Screening() {
       const response = await api.post('/api/pacientes/cadastro', data);
       if (response.status === 200)
       {
-        alert('Paciente cadastrado com sucesso!');
+        handleOpenSuccessSnackbar();
 
         const pacientClassification = response.data.classificacao[0].descricao;
         
@@ -154,7 +180,7 @@ export default function Screening() {
       }
 
     } catch (err) {
-      alert(`Falha no cadastro!\nPreencha todos os campos de Dados Pessoais e tente novamente.`);
+      handleOpenErrorSnackbar();
     }
 
   }
@@ -393,6 +419,27 @@ export default function Screening() {
             </S.Button>
             : ''}
           </S.ButtonArea>
+          <Snackbar
+            open={openSuccessSnackbar}
+            autoHideDuration={5000}
+            onClose={handleCloseSuccessSnackbar}>
+            <Alert
+              onClose={handleCloseSuccessSnackbar}
+              severity="success"
+              iconMapping={{ success: <CheckCircleOutlineIcon fontSize="inherit" /> }}>
+              Paciente cadastrado com sucesso!
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={openErrorSnackbar}
+            autoHideDuration={5000}
+            onClose={handleCloseErrorSnackbar}>
+            <Alert
+              onClose={handleCloseErrorSnackbar}
+              severity="error">
+              {`Falha no cadastro!\nPreencha todos os campos de Dados Pessoais corretamente e tente novamente.`}
+            </Alert>
+          </Snackbar>
         </S.Content>
         <GlobalStyle />
       </S.ScreeningContainer>
