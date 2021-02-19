@@ -147,6 +147,8 @@ export default function Screening() {
       setClassificationColor('#D41A1A');
   }
 
+  const patient = JSON.parse(localStorage.getItem('patient'));
+  
   async function handleRegister() {
 
     const data = {
@@ -213,24 +215,36 @@ export default function Screening() {
             <div className={classes.root}>
               <Grid container spacing={3}>
                 <Grid item>
-                  <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientName} onChange={e => setPatientName(e.target.value)} label="Nome" variant="outlined" disabled={disabled} />
-                  </ThemeProvider>
+                  <h2>
+                    Nome:
+                  </h2>
+                  <h2>
+                    {patient.nome}
+                  </h2>
                 </Grid>
                 <Grid item>
-                  <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientAge} onChange={e => setPatientAge(e.target.value)} label="Idade" variant="outlined" disabled={disabled} />
-                  </ThemeProvider>
+                  <h2>
+                    Idade:
+                  </h2>
+                  <h2>
+                    {patient.idade}
+                  </h2>
                 </Grid>
                 <Grid item>
-                  <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientWeight} onChange={e => setPatientWeight(e.target.value)} label="Peso (kg)" variant="outlined" disabled={disabled} />
-                  </ThemeProvider>
+                  <h2>
+                    Peso:
+                  </h2>
+                  <h2>
+                    {patient.peso}
+                  </h2>
                 </Grid>
                 <Grid item>
-                  <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientHeight} onChange={e => setPatientHeight(e.target.value)} label="Altura (m)" variant="outlined" disabled={disabled} />
-                  </ThemeProvider>
+                  <h2>
+                    Altura:
+                  </h2>
+                  <h2>
+                    {patient.altura}
+                  </h2>
                 </Grid>
               </Grid>
             </div>
@@ -242,7 +256,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom1} onChange={handleSymptomChange} name="checkedSymptom1" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom1} onChange={handleSymptomChange} name="checkedSymptom1" disabled={true} /></div>}
                     label="Febre"
                     labelPlacement="end"
                   />
@@ -250,7 +264,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom2} onChange={handleSymptomChange} name="checkedSymptom2" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom2} onChange={handleSymptomChange} name="checkedSymptom2" disabled={true} /></div>}
                     label="Dor/iritação na garganta"
                     labelPlacement="end"
                   />
@@ -258,7 +272,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom3} onChange={handleSymptomChange} name="checkedSymptom3" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom3} onChange={handleSymptomChange} name="checkedSymptom3" disabled={true} /></div>}
                     label="Dor de cabeça"
                     labelPlacement="end"
                   />
@@ -266,7 +280,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom4} onChange={handleSymptomChange} name="checkedSymptom4" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom4} onChange={handleSymptomChange} name="checkedSymptom4" disabled={true} /></div>}
                     label="Tosse seca ou com pouca secreção"
                     labelPlacement="end"
                   />
@@ -274,7 +288,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom5} onChange={handleSymptomChange} name="checkedSymptom5" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom5} onChange={handleSymptomChange} name="checkedSymptom5" disabled={true} /></div>}
                     label="Secreção nasal/espirros"
                     labelPlacement="end"
                   />
@@ -282,7 +296,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom6} onChange={handleSymptomChange} name="checkedSymptom6" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom6} onChange={handleSymptomChange} name="checkedSymptom6" disabled={true} /></div>}
                     label="Dificuldade respiratória/falta de ar"
                     labelPlacement="end"
                   />
@@ -290,7 +304,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom7} onChange={handleSymptomChange} name="checkedSymptom7" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom7} onChange={handleSymptomChange} name="checkedSymptom7" disabled={true} /></div>}
                     label="Dores no corpo"
                     labelPlacement="end"
                   />
@@ -298,7 +312,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom8} onChange={handleSymptomChange} name="checkedSymptom8" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom8} onChange={handleSymptomChange} name="checkedSymptom8" disabled={true} /></div>}
                     label="Diarreia"
                     labelPlacement="end"
                   />
@@ -306,7 +320,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom9} onChange={handleSymptomChange} name="checkedSymptom9" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom9} onChange={handleSymptomChange} name="checkedSymptom9" disabled={true} /></div>}
                     label="Perda/alteração de olfato"
                     labelPlacement="end"
                   />
@@ -314,7 +328,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom10} onChange={handleSymptomChange} name="checkedSymptom10" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom10} onChange={handleSymptomChange} name="checkedSymptom10" disabled={true} /></div>}
                     label="Perda/alteração do paladar"
                     labelPlacement="end"
                   />
@@ -322,7 +336,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom11} onChange={handleSymptomChange} name="checkedSymptom11" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom11} onChange={handleSymptomChange} name="checkedSymptom11" disabled={true} /></div>}
                     label="Cansaço"
                     labelPlacement="end"
                   />
@@ -330,7 +344,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedSymptom.checkedSymptom12} onChange={handleSymptomChange} name="checkedSymptom12" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.sintomas.checkedSymptom12} onChange={handleSymptomChange} name="checkedSymptom12" disabled={true} /></div>}
                     label="Náusea/enjoo"
                     labelPlacement="end"
                   />
@@ -345,7 +359,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor1} onChange={handleRiskFactorChange} name="checkedRiskFactor1" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.fatoresRisco.checkedRiskFactor1} onChange={handleRiskFactorChange} name="checkedRiskFactor1" disabled={true} /></div>}
                     label="Hipertensão"
                     labelPlacement="end"
                   />
@@ -353,7 +367,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor2} onChange={handleRiskFactorChange} name="checkedRiskFactor2" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.fatoresRisco.checkedRiskFactor2} onChange={handleRiskFactorChange} name="checkedRiskFactor2" disabled={true} /></div>}
                     label="Diabetes"
                     labelPlacement="end"
                   />
@@ -361,7 +375,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor3} onChange={handleRiskFactorChange} name="checkedRiskFactor3" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.fatoresRisco.checkedRiskFactor3} onChange={handleRiskFactorChange} name="checkedRiskFactor3" disabled={true} /></div>}
                     label="Doença respiratória pré-existente (Ex.: Asma, ...)"
                     labelPlacement="end"
                   />
@@ -369,7 +383,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor4} onChange={handleRiskFactorChange} name="checkedRiskFactor4" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.fatoresRisco.checkedRiskFactor4} onChange={handleRiskFactorChange} name="checkedRiskFactor4" disabled={true} /></div>}
                     label="Obesidade"
                     labelPlacement="end"
                   />
@@ -377,7 +391,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor5} onChange={handleRiskFactorChange} name="checkedRiskFactor5" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.fatoresRisco.checkedRiskFactor5} onChange={handleRiskFactorChange} name="checkedRiskFactor5" disabled={true} /></div>}
                     label="Problemas no coração (Ex.: angina, insuficiência cardíaca, ...)"
                     labelPlacement="end"
                   />
@@ -385,7 +399,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor6} onChange={handleRiskFactorChange} name="checkedRiskFactor6" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.fatoresRisco.checkedRiskFactor6} onChange={handleRiskFactorChange} name="checkedRiskFactor6" disabled={true} /></div>}
                     label="Câncer"
                     labelPlacement="end"
                   />
@@ -393,7 +407,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor7} onChange={handleRiskFactorChange} name="checkedRiskFactor7" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.fatoresRisco.checkedRiskFactor7} onChange={handleRiskFactorChange} name="checkedRiskFactor7" disabled={true} /></div>}
                     label="Doença renal (nos rins)"
                     labelPlacement="end"
                   />
@@ -401,7 +415,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor8} onChange={handleRiskFactorChange} name="checkedRiskFactor8" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patient.json_respostas.fatoresRisco.checkedRiskFactor8} onChange={handleRiskFactorChange} name="checkedRiskFactor8" disabled={true} /></div>}
                     label="Maior de 60 anos"
                     labelPlacement="end"
                   />
@@ -415,7 +429,7 @@ export default function Screening() {
             </S.Button>
             {!registeredPatient ? 
             <S.Button onClick = { handleRegister } >
-              CADASTRAR
+              CHAMAR PRÓXIMO PACIENTE
             </S.Button>
             : ''}
           </S.ButtonArea>

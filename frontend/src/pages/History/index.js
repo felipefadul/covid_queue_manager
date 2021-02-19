@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { AuthenticationState } from 'react-aad-msal';
 
@@ -9,6 +10,16 @@ import Unauthorized from '../Unauthorized';
 
 export default function History() {
   const history = useHistory();
+  
+  function handlePatientData() {
+    axios.get(`http://localhost:3333/api/pacientes/consulta/e80d0c2f-aed8-4963-a376-1f902a32648a`)
+      .then(response => {
+        const patient = response.data.paciente[0];
+        localStorage.setItem('patient', JSON.stringify(patient));
+        history.push('/paciente');
+      })
+      .catch(() => {});
+  }
 
   function handleScreening() {
     history.push('/triagem');
@@ -24,7 +35,7 @@ export default function History() {
         <S.Content>
           Bem-vindo ao Histórico, {accountName}!
           <S.ButtonArea>
-            <S.Button>
+            <S.Button onClick = { handlePatientData }>
               CHAMAR PRÓXIMO PACIENTE
             </S.Button>
             <S.Button onClick = { handleScreening }>
