@@ -57,7 +57,7 @@ class Postgres {
         descricao varchar(30) not null,
         codigo varchar(2) not null unique
       );
-      INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Sem Sintomas Relacionados', 'C0') ON CONFLICT (codigo) DO NOTHING;
+      INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Sem Sintomas', 'C0') ON CONFLICT (codigo) DO NOTHING;
       INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Risco Baixo', 'C1') ON CONFLICT (codigo) DO NOTHING;
       INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Risco Moderado', 'C2') ON CONFLICT (codigo) DO NOTHING;
       INSERT INTO tipo_classificacao (tipo_classificacao_id, descricao, codigo) VALUES (uuid_generate_v4(), 'Risco Alto', 'C3') ON CONFLICT (codigo) DO NOTHING;`
