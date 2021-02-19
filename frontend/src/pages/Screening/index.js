@@ -110,6 +110,17 @@ export default function Screening() {
     history.push('/historico');
   }
 
+  function chooseClassificationColor(pacientClassification) {
+    if (pacientClassification === 'Sem Sintomas')
+      setClassificationColor('#829882');
+    else if (pacientClassification === 'Risco Baixo')
+      setClassificationColor('#229422');
+    else if (pacientClassification === 'Risco Moderado')
+      setClassificationColor('#E1931E');
+    else if (pacientClassification === 'Risco Alto')
+      setClassificationColor('#D41A1A');
+  }
+
   async function handleRegister() {
 
     const data = {
@@ -133,14 +144,7 @@ export default function Screening() {
         
         setPacientClassification(pacientClassification);
 
-        if (pacientClassification === 'Sem Sintomas')
-          setClassificationColor('#829882');
-        else if (pacientClassification === 'Risco Baixo')
-          setClassificationColor('#229422');
-        else if (pacientClassification === 'Risco Moderado')
-          setClassificationColor('#E1931E');
-        else if (pacientClassification === 'Risco Alto')
-          setClassificationColor('#D41A1A');
+        chooseClassificationColor(pacientClassification);
 
         if (pacientClassification !== '')
         {
