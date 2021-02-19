@@ -37,7 +37,7 @@ export const Content = styled.div`
   }
 `;
 
-export const PacientScreeningContainer = styled.div`
+export const PatientScreeningContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: left;

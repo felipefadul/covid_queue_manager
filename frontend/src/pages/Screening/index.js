@@ -109,22 +109,22 @@ export default function Screening() {
     setOpenErrorSnackbar(false);
   };
 
-  const [pacientName, setPacientName] = useState('');
-  const [pacientAge, setPacientAge] = useState('');
-  const [pacientWeight, setPacientWeight] = useState('');
-  const [pacientHeight, setPacientHeight] = useState('');
-  const [pacientClassification, setPacientClassification] = useState('');
+  const [patientName, setPatientName] = useState('');
+  const [patientAge, setPatientAge] = useState('');
+  const [patientWeight, setPatientWeight] = useState('');
+  const [patientHeight, setPatientHeight] = useState('');
+  const [patientClassification, setPatientClassification] = useState('');
   const [classificationColor, setClassificationColor] = useState('#004D00');
   const [disabled, setDisabled] = useState(false);
   const [registeredPatient, setRegisteredPatient] = useState(false);
 
-  const pacientData = {
+  const patientData = {
     personalData: {
-      pacientName,
-      pacientAge,
-      pacientWeight,
-      pacientHeight,
-      pacientClassification
+      patientName,
+      patientAge,
+      patientWeight,
+      patientHeight,
+      patientClassification
     },
     checkedSymptom,
     checkedRiskFactor
@@ -136,27 +136,27 @@ export default function Screening() {
     history.push('/historico');
   }
 
-  function chooseClassificationColor(pacientClassification) {
-    if (pacientClassification === 'Sem Sintomas')
+  function chooseClassificationColor(patientClassification) {
+    if (patientClassification === 'Sem Sintomas')
       setClassificationColor('#829882');
-    else if (pacientClassification === 'Risco Baixo')
+    else if (patientClassification === 'Risco Baixo')
       setClassificationColor('#229422');
-    else if (pacientClassification === 'Risco Moderado')
+    else if (patientClassification === 'Risco Moderado')
       setClassificationColor('#E1931E');
-    else if (pacientClassification === 'Risco Alto')
+    else if (patientClassification === 'Risco Alto')
       setClassificationColor('#D41A1A');
   }
 
   async function handleRegister() {
 
     const data = {
-      nome: pacientData.personalData.pacientName,
-      idade: pacientData.personalData.pacientAge,
-      peso: pacientData.personalData.pacientWeight,
-      altura: pacientData.personalData.pacientHeight,
+      nome: patientData.personalData.patientName,
+      idade: patientData.personalData.patientAge,
+      peso: patientData.personalData.patientWeight,
+      altura: patientData.personalData.patientHeight,
       json_respostas: {
-        sintomas: pacientData.checkedSymptom,
-        fatoresRisco: pacientData.checkedRiskFactor
+        sintomas: patientData.checkedSymptom,
+        fatoresRisco: patientData.checkedRiskFactor
       }
     }
 
@@ -166,13 +166,13 @@ export default function Screening() {
       {
         handleOpenSuccessSnackbar();
 
-        const pacientClassification = response.data.classificacao[0].descricao;
+        const patientClassification = response.data.classificacao[0].descricao;
         
-        setPacientClassification(pacientClassification);
+        setPatientClassification(patientClassification);
 
-        chooseClassificationColor(pacientClassification);
+        chooseClassificationColor(patientClassification);
 
-        if (pacientClassification !== '')
+        if (patientClassification !== '')
         {
           setDisabled(true);
           setRegisteredPatient(true)
@@ -194,7 +194,7 @@ export default function Screening() {
           Sistema de Triagem - Coronavírus
         </S.AppTitle>
         <S.Content>
-          <S.PacientScreeningContainer>
+          <S.PatientScreeningContainer>
             <S.PageTitle>
               Triagem do Paciente
             </S.PageTitle>
@@ -202,7 +202,7 @@ export default function Screening() {
             <S.ClassificationRowContainer>
               <S.ClassificationContainer classificationColor={classificationColor}>
                 <S.ClassificationTitle classificationColor={classificationColor}>
-                  {pacientData.personalData.pacientClassification}
+                  {patientData.personalData.patientClassification}
                 </S.ClassificationTitle>
               </S.ClassificationContainer>
             </S.ClassificationRowContainer> 
@@ -214,22 +214,22 @@ export default function Screening() {
               <Grid container spacing={3}>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={pacientName} onChange={e => setPacientName(e.target.value)} label="Nome" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientName} onChange={e => setPatientName(e.target.value)} label="Nome" variant="outlined" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={pacientAge} onChange={e => setPacientAge(e.target.value)} label="Idade" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientAge} onChange={e => setPatientAge(e.target.value)} label="Idade" variant="outlined" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={pacientWeight} onChange={e => setPacientWeight(e.target.value)} label="Peso (kg)" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientWeight} onChange={e => setPatientWeight(e.target.value)} label="Peso (kg)" variant="outlined" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={pacientHeight} onChange={e => setPacientHeight(e.target.value)} label="Altura (m)" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientHeight} onChange={e => setPatientHeight(e.target.value)} label="Altura (m)" variant="outlined" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
               </Grid>
@@ -408,7 +408,7 @@ export default function Screening() {
                 </Grid>
               </Grid>
             </div>
-          </S.PacientScreeningContainer>
+          </S.PatientScreeningContainer>
           <S.ButtonArea>
             <S.Button onClick = { handleNavigationBack }>
               VOLTAR
