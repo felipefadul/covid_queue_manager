@@ -79,6 +79,38 @@ export const SectionTitle = styled.h3`
   }
 `
 
+export const ClassificationRowContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+
+  @media(max-width: 960px) {
+    justify-content: center;
+    margin: 0.5rem 0 1rem 0;
+  }
+`
+
+export const ClassificationContainer = styled.div`
+  border: 3px solid;
+  border-radius: 30px;
+  border-color: ${props => props.classificationColor || "#004D00"};
+`
+
+export const ClassificationTitle = styled.h3`
+  color: ${props => props.classificationColor || "#004D00"};
+  text-align: left;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.3rem;
+  padding: 10px 15px;
+  max-width: 100px;
+  text-align: center;
+
+  @media(max-width: 960px) {
+    font-size: 1rem;
+  }
+`
+
 export const ButtonArea = styled.div`
   display: flex;
   align-items: center;
