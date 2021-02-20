@@ -146,7 +146,7 @@ export default function Screening() {
   }
 
   const patient = JSON.parse(localStorage.getItem('patient'));
-  const classificationColor = chooseClassificationColor(patient.descricao);
+  const classificationColor = chooseClassificationColor(patient.classificacao);
 
   async function handleRegister() {
 
@@ -202,7 +202,7 @@ export default function Screening() {
             <S.ClassificationRowContainer>
               <S.ClassificationContainer classificationColor={classificationColor}>
                 <S.ClassificationTitle classificationColor={classificationColor}>
-                  {patient.descricao}
+                  {patient.classificacao}
                 </S.ClassificationTitle>
               </S.ClassificationContainer>
             </S.ClassificationRowContainer> 

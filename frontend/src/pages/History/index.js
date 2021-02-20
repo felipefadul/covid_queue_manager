@@ -14,7 +14,7 @@ export default function History() {
   function handlePatientData() {
     axios.get(`http://localhost:3333/api/pacientes/consulta/e80d0c2f-aed8-4963-a376-1f902a32648a`)
       .then(response => {
-        const patient = response.data.paciente[0];
+        const patient = response.data.paciente;
         localStorage.setItem('patient', JSON.stringify(patient));
         history.push('/paciente');
       })

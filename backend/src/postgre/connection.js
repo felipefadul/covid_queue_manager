@@ -90,11 +90,18 @@ class Postgres {
   }
 
   async recuperarPacientePorID(paciente_id) {
-    const { rows } = await db.query(`select rt.json_respostas, tc.descricao, * from pacientes p
+    const { rows } = await db.query(`select p.paciente_id,
+                                     rt.json_respostas,
+                                     tc.descricao as "classificacao",
+                                     p.nome,
+                                     p.idade,
+                                     p.peso,
+                                     p.altura
+                                     from pacientes p
                                      join respostas_triagem rt on rt.triagem_id = p.triagem_id
                                      join tipo_classificacao tc on tc.tipo_classificacao_id = p.tipo_classificacao_id
                                      where p.paciente_id='${paciente_id}'`);
-    return rows;
+    return rows[0];
   }
 
   async recuperarPacienteIDPorNome(paciente_nome) {
