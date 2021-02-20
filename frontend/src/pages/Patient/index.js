@@ -7,7 +7,6 @@ import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
 import { createMuiTheme, makeStyles, withStyles, ThemeProvider } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -114,7 +113,6 @@ export default function Screening() {
   const [patientWeight, setPatientWeight] = useState('');
   const [patientHeight, setPatientHeight] = useState('');
   const [patientClassification, setPatientClassification] = useState('');
-  const [classificationColor, setClassificationColor] = useState('#004D00');
   const [disabled, setDisabled] = useState(false);
   const [registeredPatient, setRegisteredPatient] = useState(false);
 
@@ -138,17 +136,18 @@ export default function Screening() {
 
   function chooseClassificationColor(patientClassification) {
     if (patientClassification === 'Sem Sintomas')
-      setClassificationColor('#829882');
+      return '#829882';
     else if (patientClassification === 'Risco Baixo')
-      setClassificationColor('#229422');
+      return '#229422';
     else if (patientClassification === 'Risco Moderado')
-      setClassificationColor('#E1931E');
+      return '#E1931E';
     else if (patientClassification === 'Risco Alto')
-      setClassificationColor('#D41A1A');
+      return '#D41A1A';
   }
 
   const patient = JSON.parse(localStorage.getItem('patient'));
-  
+  const classificationColor = chooseClassificationColor(patient.descricao);
+
   async function handleRegister() {
 
     const data = {
@@ -200,15 +199,13 @@ export default function Screening() {
             <S.PageTitle>
               Triagem do Paciente
             </S.PageTitle>
-            {registeredPatient ? 
             <S.ClassificationRowContainer>
               <S.ClassificationContainer classificationColor={classificationColor}>
                 <S.ClassificationTitle classificationColor={classificationColor}>
-                  {patientData.personalData.patientClassification}
+                  {patient.descricao}
                 </S.ClassificationTitle>
               </S.ClassificationContainer>
             </S.ClassificationRowContainer> 
-            : ''}
             <S.SectionTitle>
               Dados Pessoais
             </S.SectionTitle>
