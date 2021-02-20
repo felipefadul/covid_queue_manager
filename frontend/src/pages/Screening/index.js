@@ -221,22 +221,22 @@ export default function Screening() {
               <Grid container spacing={3}>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientName} onChange={e => setPatientName(e.target.value)} label="Nome" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientName} onChange={e => setPatientName(e.target.value)} label="Nome"  placeholder="Ex.: João da Silva" variant="outlined" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientAge} onChange={handlePatientAgeChange} label="Idade" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientAge} onChange={handlePatientAgeChange} label="Idade" variant="outlined" placeholder="Ex.: 30" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientWeight} onChange={e => setPatientWeight(e.target.value)} label="Peso (kg)" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientWeight} onChange={e => setPatientWeight(e.target.value)} label="Peso (kg)" placeholder="Ex.: 60.5" variant="outlined" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientHeight} onChange={e => setPatientHeight(e.target.value)} label="Altura (m)" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientHeight} onChange={e => setPatientHeight(e.target.value)} label="Altura (m)" placeholder="Ex.: 1.65" variant="outlined" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
               </Grid>
