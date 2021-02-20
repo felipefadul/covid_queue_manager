@@ -63,7 +63,7 @@ export const PageTitle = styled.h2`
 
   @media(max-width: 960px) {
     font-size: 1.2rem;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
   }
 `
 
