@@ -90,6 +90,13 @@ export default function Screening() {
     setCheckedRiskFactor({ ...checkedRiskFactor, [event.target.name]: event.target.checked });
   };
 
+  const handlePatientAgeChange = (event) => {
+    setPatientAge(event.target.value);
+    event.target.value >= 60 ?
+      setCheckedRiskFactor({ ...checkedRiskFactor, checkedRiskFactor8: true }) :
+      setCheckedRiskFactor({ ...checkedRiskFactor, checkedRiskFactor8: false });
+  }
+
   const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
   const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
 
@@ -219,7 +226,7 @@ export default function Screening() {
                 </Grid>
                 <Grid item>
                   <ThemeProvider theme={theme}>
-                    <TextField id="outlined-basic" className={classes.inputText} value={patientAge} onChange={e => setPatientAge(e.target.value)} label="Idade" variant="outlined" disabled={disabled} />
+                    <TextField id="outlined-basic" className={classes.inputText} value={patientAge} onChange={handlePatientAgeChange} label="Idade" variant="outlined" disabled={disabled} />
                   </ThemeProvider>
                 </Grid>
                 <Grid item>
@@ -401,7 +408,7 @@ export default function Screening() {
                 <Grid item md={6} sm={12}>
                   <FormControlLabel
                     style={{ display: 'table' }}
-                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={checkedRiskFactor.checkedRiskFactor8} onChange={handleRiskFactorChange} name="checkedRiskFactor8" disabled={disabled} /></div>}
+                    control={<div style={{ display: 'table-cell' }}><GreenCheckbox checked={patientAge >= 60} name="checkedRiskFactor8" disabled={true} /></div>}
                     label="Maior de 60 anos"
                     labelPlacement="end"
                   />
