@@ -73,6 +73,32 @@ export const SectionTitle = styled.h3`
   font-style: normal;
   font-weight: bold;
   font-size: 1.3rem;
+  margin-bottom: .8rem;
+
+  @media(max-width: 960px) {
+    font-size: 1rem;
+  }
+`
+
+export const SectionContainer = styled.div`
+  display: flex;
+  width: 18rem;
+`
+
+export const SectionItem = styled.h3`
+  color: #229422;
+  font-size: 1.3rem;
+  
+  @media(max-width: 960px) {
+    font-size: 1rem;
+  }
+`
+
+export const SectionItemValue = styled.h3`
+  color: #829882;
+  margin-left: 1rem;
+  text-transform: uppercase;
+  font-size: 1.3rem;
 
   @media(max-width: 960px) {
     font-size: 1rem;

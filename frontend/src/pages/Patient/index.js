@@ -215,36 +215,44 @@ export default function Screening() {
             <div className={classes.root}>
               <Grid container spacing={3}>
                 <Grid item>
-                  <h2>
-                    Nome:
-                  </h2>
-                  <h2>
-                    {patient.nome}
-                  </h2>
+                  <S.SectionContainer>
+                    <S.SectionItem>
+                      Nome:
+                    </S.SectionItem>
+                    <S.SectionItemValue>
+                      {patient.nome}
+                    </S.SectionItemValue>
+                  </S.SectionContainer>
                 </Grid>
                 <Grid item>
-                  <h2>
-                    Idade:
-                  </h2>
-                  <h2>
-                    {patient.idade}
-                  </h2>
+                  <S.SectionContainer>
+                    <S.SectionItem>
+                      Idade:
+                    </S.SectionItem>
+                    <S.SectionItemValue>
+                      {patient.idade}
+                    </S.SectionItemValue>
+                  </S.SectionContainer>
                 </Grid>
                 <Grid item>
-                  <h2>
-                    Peso:
-                  </h2>
-                  <h2>
-                    {patient.peso}
-                  </h2>
+                  <S.SectionContainer>
+                    <S.SectionItem>
+                      Peso:
+                    </S.SectionItem>
+                    <S.SectionItemValue>
+                      {patient.peso}
+                    </S.SectionItemValue>
+                  </S.SectionContainer>
                 </Grid>
                 <Grid item>
-                  <h2>
-                    Altura:
-                  </h2>
-                  <h2>
-                    {patient.altura}
-                  </h2>
+                  <S.SectionContainer>
+                    <S.SectionItem>
+                      Altura:
+                    </S.SectionItem>
+                    <S.SectionItemValue>
+                      {patient.altura}
+                    </S.SectionItemValue>
+                  </S.SectionContainer>
                 </Grid>
               </Grid>
             </div>
