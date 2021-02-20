@@ -1,5 +1,6 @@
 const db = require ('../../postgre/connection');
 const classificarPaciente = require('../../utils/classificarPaciente');
+const inserirFilaAWS = require('../../utils/inserirFilaAWS');
 const uuidV4 = require('uuid').v4;
 
 class CadastroPaciente {
@@ -17,6 +18,9 @@ class CadastroPaciente {
         const dataRespostas = await db.inserirTabelaRespostas(triagem_id, json_respostas);
 
         const classificacao = await db.recuperarTipoClassificacaoPorID(tipo_classificacao_id);
+        const pacient_id = await db.recuperarPacienteIDPorNome (nome);
+
+        const result = await inserirFilaAWS (pacient_id[0].paciente_id, classificacao[0].descricao);
 
         return res.status(200).json({ 
           classificacao
