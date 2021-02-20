@@ -97,6 +97,12 @@ class Postgres {
     return rows;
   }
 
+  async recuperarPacienteIDPorNome(paciente_nome) {
+    const { rows } = await db.query(`select p.paciente_id from pacientes p
+                                     where p.nome='${paciente_nome}'`);
+    return rows;
+  }
+
   async recuperarTipoClassificacaoPorCodigo(codigo) {
     const { rows } = await db.query(`select tc.tipo_classificacao_id from tipo_classificacao tc
                                      where tc.codigo = '${codigo}'`);

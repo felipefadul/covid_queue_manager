@@ -41,6 +41,8 @@ axios(options)
   console.log(error);
 }); */
  
+const inserirFilaAWS = require('./utils/inserirFilaAWS');
+
 app.listen(SERVER_PORT, () => {
   console.log(`Servidor rodando na porta ${SERVER_PORT}! :D`);
 }); //execucao do servidor
