@@ -8,7 +8,7 @@ class CadastroPaciente {
   
   async cadastrarPaciente(req, res) {
     
-    const { nome, idade, peso, altura, json_respostas } = req.body;
+    const { nome, idade, peso, altura, nome_enfermeiro, json_respostas } = req.body;
     
     try {
         const triagem_id = uuidV4();
@@ -20,7 +20,7 @@ class CadastroPaciente {
         const classificacao = await db.recuperarTipoClassificacaoPorID(tipo_classificacao_id);
         const pacient_id = await db.recuperarPacienteIDPorNome (nome);
 
-        const result = await inserirFilaAWS (pacient_id[0].paciente_id, classificacao[0].descricao);
+        const result = await inserirFilaAWS (pacient_id[0].paciente_id, classificacao[0].descricao, nome_enfermeiro);
 
         return res.status(200).json({ 
           classificacao

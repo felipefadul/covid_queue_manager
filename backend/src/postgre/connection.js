@@ -46,11 +46,12 @@ class Postgres {
       );
       CREATE TABLE IF NOT EXISTS historico (
         historico_id uuid DEFAULT uuid_generate_v4() primary key not null,
+        contagem serial,
         paciente_id uuid not null,
-        nome varchar(255) not Null,
-        nome_enfermeira varchar(255) not Null,
+        nome_enfermeiro varchar(255) not Null,
         nome_medico varchar(255) not Null,
-        date timestamptz DEFAULT CURRENT_TIMESTAMP not null
+        tipo_classificacao_id uuid not Null,
+        data timestamptz DEFAULT CURRENT_TIMESTAMP not null
       );
       CREATE TABLE IF NOT EXISTS tipo_classificacao (
         tipo_classificacao_id uuid DEFAULT uuid_generate_v4() primary key not null,
@@ -89,6 +90,18 @@ class Postgres {
     return rows;
   }
 
+  inserirTabelaHistorico(paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id) {
+    return this.inserirTabelaHistoricoAsync(uuidV4(), paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id, 'historico');
+  }
+
+  async inserirTabelaHistoricoAsync( historico_id, paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id, tabela ) {
+     const { rows } = await db.query(
+      `INSERT INTO ${tabela} (historico_id, paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id) VALUES ($1, $2, $3, $4, $5)`,
+      [historico_id, paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id]);
+      await db.query("commit;");
+    return rows;
+  }
+
   async recuperarPacientePorID(paciente_id) {
     const { rows } = await db.query(`select p.paciente_id,
                                      rt.json_respostas,
@@ -121,30 +134,20 @@ class Postgres {
                                      where tc.tipo_classificacao_id = '${tipo_classificacao_id}'`);
     return rows;
   }
+
+  async recuperarContagemHistorico() {
+    const { rows } = await db.query(`select max(contagem) from historico`);
+    return rows[0].max;
+  }
+
+  async recuperarContagemHistoricoGrave(tipo_classificacao_id_grave) {
+    const { rows } = await db.query(`SELECT COUNT(*)
+                                            FROM historico
+                                            where tipo_classificacao_id ='${tipo_classificacao_id_grave}'
+                                            GROUP BY tipo_classificacao_id`);
+    return rows[0].count;
+  }
+
 }
-  /* async leTodos() {
-    const { rows } = await db.query("SELECT TRANSACTION_ID, ORDER_ID, LOGISTIC_ID, PRICE FROM PENDENTES");
-    return rows;
-  }
-
-  async procuraPorTransactionId(transaction_id) {
-    return procuraPorTransactionIdGeneric(transaction_id, 'PENDENTES');
-  }
-
-  async procuraPorTransactionIdRealizados(transaction_id) {
-    return procuraPorTransactionIdGeneric(transaction_id, 'REALIZADOS');
-  }
-
-  async procuraPorTransactionIdGeneric(transaction_id, tabela) {
-    const { rows } = await db.query(`SELECT TRANSACTION_ID, NUMERO_COLETA FROM ${tabela} WHERE TRANSACTION_ID = $1`, [transaction_id]);
-    return rows;
-  }
-
-  async deleta(transaction_id) {
-    const { rows } = await db.query("DELETE FROM PENDENTES WHERE TRANSACTION_ID = $1", [transaction_id])
-    await db.query("commit;");
-    return rows
-  }
-} */
 
 module.exports = new Postgres();

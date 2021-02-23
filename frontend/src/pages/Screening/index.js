@@ -161,6 +161,7 @@ export default function Screening() {
       idade: patientData.personalData.patientAge,
       peso: patientData.personalData.patientWeight,
       altura: patientData.personalData.patientHeight,
+      nome_enfermeiro: accountName,
       json_respostas: {
         sintomas: patientData.checkedSymptom,
         fatoresRisco: patientData.checkedRiskFactor
@@ -193,7 +194,7 @@ export default function Screening() {
   }
 
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
-
+  const accountName = localStorage.getItem('accountName');
   if (authenticationState === AuthenticationState.Authenticated) {
     return (
       <S.ScreeningContainer>
