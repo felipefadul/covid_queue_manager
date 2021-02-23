@@ -145,6 +145,9 @@ class Postgres {
                                             FROM historico
                                             where tipo_classificacao_id ='${tipo_classificacao_id_grave}'
                                             GROUP BY tipo_classificacao_id`);
+    if(typeof rows[0] === "undefined")
+      return 0;
+
     return rows[0].count;
   }
 
