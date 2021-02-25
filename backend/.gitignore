@@ -25,4 +25,4 @@ yarn-error.log*
 .eslintcache
 aws.json
 # dotenv environment variables file
-.env
+/src/config/.env*
