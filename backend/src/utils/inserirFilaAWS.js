@@ -1,22 +1,13 @@
 const AWS = require('aws-sdk');
-
-const { config } = require('dotenv');
 const { join } = require('path');
-const { ok } = require('assert');
 
-const env = process.env.NODE_ENV || "dev"; // Por default, é "dev".
-ok(env === "prod" || env === "dev", 'A env é inválida! Deve ser "prod" ou "dev"');
-
-const configPath = join(__dirname, '../config', `.env.${env}`);
-config({
-  path: configPath
-});
+const configAWSPath = join(__dirname, '../config', `.env.aws.json`);
 
 async function enviarMensagemFilaAWS(paciente_id, nome_fila, enfermeiro) {
   
   const date_now = new Date();
   const date_formated = date_now.toISOString().slice(0,10);
-  AWS.config.loadFromPath('D:\\Documentos\\PI\\covid_queue_manager\\backend\\src\\config\\aws.json'); //VERIFICAR DEPOIS UMA MELHOR FORMA PARA PASSAR O ARQUIVO
+  AWS.config.loadFromPath(configAWSPath);
   var sqs = new AWS.SQS ({apiVersion: date_formated});
 
   var params = {
