@@ -11,7 +11,8 @@ class ConsultaHistorico {
       try {
 
         const historico = await db.recuperarHistorico();
-
+        if (historico === null)
+          return res.status(200).json({ historico });
         //pegando o ids dos pacientes e pegando seus nomes
         for (var key in historico) {
           historico[key].nome_paciente = (await db.recuperarPacientePorID(historico[key].paciente_id)).nome;

@@ -158,6 +158,10 @@ class Postgres {
 
   async recuperarHistorico() {
     const { rows } = await db.query(`select paciente_id, sala_medico, to_char("data" at time zone 'America/Sao_Paulo', 'HH24:MI') as "data" from historico ORDER BY contagem DESC LIMIT 5`);
+    
+    if(typeof rows[0] === "undefined")
+      return null;
+    
     return rows;
   }
 
