@@ -1,5 +1,4 @@
 const db = require ('../../postgre/connection');
-const uuidV4 = require('uuid').v4;
 
 class ConsultaPaciente {
     constructor() { }

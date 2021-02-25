@@ -50,6 +50,7 @@ class Postgres {
         paciente_id uuid not null,
         nome_enfermeiro varchar(255) not Null,
         nome_medico varchar(255) not Null,
+        sala_medico NUMERIC(1) not Null,
         tipo_classificacao_id uuid not Null,
         data timestamptz DEFAULT CURRENT_TIMESTAMP not null
       );
@@ -90,14 +91,14 @@ class Postgres {
     return rows;
   }
 
-  inserirTabelaHistorico(paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id) {
-    return this.inserirTabelaHistoricoAsync(uuidV4(), paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id, 'historico');
+  inserirTabelaHistorico(paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id) {
+    return this.inserirTabelaHistoricoAsync(uuidV4(), paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id, 'historico');
   }
 
-  async inserirTabelaHistoricoAsync( historico_id, paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id, tabela ) {
+  async inserirTabelaHistoricoAsync( historico_id, paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id, tabela ) {
      const { rows } = await db.query(
-      `INSERT INTO ${tabela} (historico_id, paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id) VALUES ($1, $2, $3, $4, $5)`,
-      [historico_id, paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id]);
+      `INSERT INTO ${tabela} (historico_id, paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [historico_id, paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id]);
       await db.query("commit;");
     return rows;
   }
@@ -137,6 +138,10 @@ class Postgres {
 
   async recuperarContagemHistorico() {
     const { rows } = await db.query(`select max(contagem) from historico`);
+
+    if(typeof rows[0] === "undefined")
+      return 0;
+
     return rows[0].max;
   }
 
@@ -149,6 +154,11 @@ class Postgres {
       return 0;
 
     return rows[0].count;
+  }
+
+  async recuperarHistorico() {
+    const { rows } = await db.query(`select paciente_id, sala_medico, to_char("data" at time zone 'America/Sao_Paulo', 'HH24:MI') as "data" from historico ORDER BY contagem DESC LIMIT 5`);
+    return rows;
   }
 
 }
