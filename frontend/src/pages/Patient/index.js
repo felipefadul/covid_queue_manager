@@ -56,7 +56,7 @@ export default function Screening() {
   }
 
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
-  const accountListGroups = localStorage.getItem('accountListGroups');
+  const accountListGroups = JSON.parse(localStorage.getItem('accountListGroups'));
   if ((authenticationState === AuthenticationState.Authenticated) && (CheckForValueJson(accountListGroups, '21af395d-6321-4465-9a48-e1aa65178e01'))) {
     return (
       <S.ScreeningContainer>

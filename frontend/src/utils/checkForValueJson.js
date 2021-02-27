@@ -1,5 +1,5 @@
 
-module.exports = function checkForValueJson (json, value) {
+module.exports =  function checkForValueJson (json, value) {
   try {
     for (let key in json) {
         if (typeof (json[key]) === "object") {
