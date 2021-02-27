@@ -36,6 +36,36 @@ export const Content = styled.div`
   }
 `;
 
+export const HistoryContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  background-color: #FFF;
+  padding: 1rem 1rem 1rem 1rem;
+  border-radius: 1rem;
+  max-width: 40rem;
+  overflow-y: auto;
+  max-height: 40rem;
+
+  @media(max-width: 960px) {
+    max-width: 15rem;
+    max-height: 20rem;
+  }
+`
+
+export const HistoryContentTitle =  styled.h1`
+  color: #004D00;
+  text-align: center;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 1.5rem;
+
+  @media(max-width: 960px) {
+    font-size: 1.2rem;
+    margin-bottom: .5rem;
+  }
+`
+
 export const ButtonArea = styled.div`
   display: flex;
   align-items: center;
