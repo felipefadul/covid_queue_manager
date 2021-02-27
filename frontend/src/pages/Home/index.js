@@ -38,6 +38,7 @@ export default function Home() {
       case AuthenticationState.Authenticated:
         localStorage.setItem('authenticationState', JSON.stringify(authProvider.authenticationState));
         localStorage.setItem('accountName', authProvider.getAccountInfo().account.name);
+        localStorage.setItem('accountListGroups', authProvider.getAccountInfo().account.idToken.groups);
         history.push('/historico');
         setLoadingState(false);
         break;
