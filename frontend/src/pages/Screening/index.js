@@ -19,6 +19,7 @@ import green from '@material-ui/core/colors/green';
 
 import Unauthorized from '../Unauthorized';
 import { AuthenticationState } from 'react-aad-msal';
+import CheckForValueJson from '../../utils/checkForValueJson'
 
 const theme = createMuiTheme({
   palette: {
@@ -195,7 +196,8 @@ export default function Screening() {
 
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
   const accountName = localStorage.getItem('accountName');
-  if (authenticationState === AuthenticationState.Authenticated) {
+  const accountListGroups = localStorage.getItem('accountListGroups');
+  if ((authenticationState === AuthenticationState.Authenticated) && (CheckForValueJson(accountListGroups, '77cdb68f-6363-41de-93e8-9e15f2938471'))) {
     return (
       <S.ScreeningContainer>
         <S.AppTitle>

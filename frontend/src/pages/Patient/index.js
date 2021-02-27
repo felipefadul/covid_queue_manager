@@ -13,6 +13,7 @@ import green from '@material-ui/core/colors/green';
 
 import Unauthorized from '../Unauthorized';
 import { AuthenticationState } from 'react-aad-msal';
+import CheckForValueJson from '../../utils/checkForValueJson'
 
 const GreenCheckbox = withStyles({
   root: {
@@ -55,8 +56,8 @@ export default function Screening() {
   }
 
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
-
-  if (authenticationState === AuthenticationState.Authenticated) {
+  const accountListGroups = localStorage.getItem('accountListGroups');
+  if ((authenticationState === AuthenticationState.Authenticated) && (CheckForValueJson(accountListGroups, '21af395d-6321-4465-9a48-e1aa65178e01'))) {
     return (
       <S.ScreeningContainer>
         <S.AppTitle>
