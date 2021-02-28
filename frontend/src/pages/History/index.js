@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthenticationState } from 'react-aad-msal';
 import { withStyles, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -43,17 +43,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Fulano da Silva 2', 4, '10:48', 24, 4.0),
-  createData('Fulano da Silva 3', 3, '10:45', 37, 4.3),
-  createData('Fulano da Silva 4', 2, '10:40', 24, 6.0),
-  createData('Fulano da Silva 5', 1, '10:37', 67, 4.3),
-];
-
 const useStyles = makeStyles({
   table: {
     minWidth: 500,
@@ -69,10 +58,12 @@ const useStyles = makeStyles({
     borderBottom: "none"
   }
 });
-
 export default function History() {
   const history = useHistory();
   const classes = useStyles();
+
+  const [historyData, setHistoryData] = useState([]);
+  const [lastPatient, setLastPatient] = useState({});
 
   function handlePatientData(patientID) {
     api.get(`/api/pacientes/consulta/${patientID}`)
@@ -101,9 +92,24 @@ export default function History() {
     handlePatientData(patientID);
   }
 
+  async function handleHistorySearch() {
+    await api.get(`/api/historico/consulta/privado`)
+    .then(response => {
+      setLastPatient(response.data.historico[0]);
+      setHistoryData(response.data.historico.slice(1));
+      console.log('historyData', historyData);
+    })
+    .catch(() => {});
+  }
+
   function handleScreening() {
     history.push('/triagem');
   }
+
+  useEffect(() => {
+    handleHistorySearch();
+  },  [history]);
+
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
   const accountListGroups = JSON.parse(localStorage.getItem('accountListGroups'));
   const accountName = localStorage.getItem('accountName');
@@ -120,7 +126,7 @@ export default function History() {
                 Paciente
               </S.LastPatientContentTitle>
               <S.LastPatientContentValue>
-                FULANO DA SILVA <IconButton><SearchIcon/></IconButton>
+                {lastPatient.nome_paciente} <IconButton><SearchIcon/></IconButton>
               </S.LastPatientContentValue>
             </S.LastPatientContent>
             <S.LastPatientContent>
@@ -128,7 +134,7 @@ export default function History() {
                   Sala
               </S.LastPatientContentTitle>
               <S.LastPatientContentValue className="room">
-                5
+                {lastPatient.sala_medico}
               </S.LastPatientContentValue>
             </S.LastPatientContent>
           </S.LastPatientContainer>
@@ -147,13 +153,13 @@ export default function History() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <StyledTableRow key={row.name}>
+                    {historyData.map((row) => (
+                      <StyledTableRow key={row.paciente_id}>
                         <StyledTableCell className={classes.rowValue} align="left" component="th" scope="row">
-                          {row.name.toUpperCase()}
+                          {row.nome_paciente.toUpperCase()}
                         </StyledTableCell>
-                        <StyledTableCell className={classes.rowValue} align="center">{row.calories}</StyledTableCell>
-                        <StyledTableCell className={classes.rowValue} align="center">{row.fat}</StyledTableCell>
+                        <StyledTableCell className={classes.rowValue} align="center">{row.sala_medico}</StyledTableCell>
+                        <StyledTableCell className={classes.rowValue} align="center">{row.data}</StyledTableCell>
                         <StyledTableCell className={classes.rowValue} align="center"><IconButton><SearchIcon/></IconButton></StyledTableCell>
                       </StyledTableRow>
                     ))}
@@ -163,8 +169,9 @@ export default function History() {
             </ThemeProvider>
           </S.HistoryContent>
           <S.ButtonArea>
+            <S.Button onClick = { handleHistorySearch }>ATUALIZAR</S.Button>
             {CheckForValueJson(accountListGroups,'21af395d-6321-4465-9a48-e1aa65178e01') ? <S.Button onClick = { handleCallNextPatient }>CHAMAR PRÓXIMO PACIENTE</S.Button> : ''}
-            {CheckForValueJson(accountListGroups,'77cdb68f-6363-41de-93e8-9e15f2938471') ? <S.Button onClick = { handleScreening }>REALIZAR TRIAGEM</S.Button>:''}            
+            {CheckForValueJson(accountListGroups,'77cdb68f-6363-41de-93e8-9e15f2938471') ? <S.Button onClick = { handleScreening }>REALIZAR TRIAGEM</S.Button>:''}
           </S.ButtonArea>
         </S.Content>
         <GlobalStyle />
