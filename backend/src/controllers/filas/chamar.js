@@ -23,7 +23,7 @@ class GerenciadorFila {
   constructor() { }
 
   async chamarPaciente(req, res) {
-    const { nome_medico, sala_medico } = req.body;
+    const { nome_medico, accountListGroups } = req.body;
 
     try {
       let data = await receberPacienteFilaAWS('grave');

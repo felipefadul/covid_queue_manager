@@ -19,7 +19,7 @@ import green from '@material-ui/core/colors/green';
 
 import Unauthorized from '../Unauthorized';
 import { AuthenticationState } from 'react-aad-msal';
-import CheckForValueJson from '../../utils/checkForValueJson'
+import CheckForValueJson from '../../utils/checkForValueJson';
 
 const theme = createMuiTheme({
   palette: {

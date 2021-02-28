@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { AuthenticationState } from 'react-aad-msal';
 import { withStyles, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -9,14 +8,16 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper'
+import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
-import CheckForValueJson from '../../utils/checkForValueJson'
+import CheckForValueJson from '../../utils/checkForValueJson';
+import api from '../../services/api';
+
 import Unauthorized from '../Unauthorized';
 
 const theme = createMuiTheme({
@@ -73,12 +74,25 @@ export default function History() {
   const history = useHistory();
   const classes = useStyles();
   
-  function handlePatientData() {
-    axios.get(`http://localhost:3333/api/pacientes/consulta/989b5a51-3589-4a94-855f-74b80219315d`)
+  function handlePatientData(patientID) {
+    api.get(`/api/pacientes/consulta/${patientID}`)
       .then(response => {
         const patient = response.data.paciente;
         localStorage.setItem('patient', JSON.stringify(patient));
         history.push('/paciente');
+      })
+      .catch(() => {});
+  }
+
+  function handleCallNextPatient() {
+    const data = {
+      nome_medico = accountName,
+      accountListGroups = accountListGroups
+    }
+    api.post(`/api/filas/chamar`, data)
+      .then(response => {
+        console.log('response.data', response.data);
+        const patientID = response.data;
       })
       .catch(() => {});
   }
@@ -145,7 +159,7 @@ export default function History() {
             </ThemeProvider>
           </S.HistoryContent>
           <S.ButtonArea>
-            {CheckForValueJson(accountListGroups,'21af395d-6321-4465-9a48-e1aa65178e01') ? <S.Button onClick = { handlePatientData }>CHAMAR PRÓXIMO PACIENTE</S.Button> : ''}
+            {CheckForValueJson(accountListGroups,'21af395d-6321-4465-9a48-e1aa65178e01') ? <S.Button onClick = { handleCallNextPatient }>CHAMAR PRÓXIMO PACIENTE</S.Button> : ''}
             {CheckForValueJson(accountListGroups,'77cdb68f-6363-41de-93e8-9e15f2938471') ? <S.Button onClick = { handleScreening }>REALIZAR TRIAGEM</S.Button>:''}            
           </S.ButtonArea>
         </S.Content>
