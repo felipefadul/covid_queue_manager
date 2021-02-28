@@ -33,7 +33,7 @@ export const Content = styled.div`
   margin: 1rem;
 
   @media(max-width: 960px) {
-    padding: 1.5rem 2.5rem;
+    padding: 1.5rem 1.7rem;
   }
 `;
 
