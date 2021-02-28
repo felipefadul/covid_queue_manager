@@ -86,15 +86,20 @@ export default function History() {
 
   function handleCallNextPatient() {
     const data = {
-      nome_medico = accountName,
-      accountListGroups = accountListGroups
-    }
+      nome_medico: accountName,
+      accountListGroups: accountListGroups
+    };
+
+    let patientID;
+
     api.post(`/api/filas/chamar`, data)
       .then(response => {
         console.log('response.data', response.data);
-        const patientID = response.data;
+        patientID = response.data;
       })
       .catch(() => {});
+
+    handlePatientData(patientID);
   }
 
   function handleScreening() {
