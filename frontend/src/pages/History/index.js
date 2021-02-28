@@ -126,7 +126,7 @@ export default function History() {
                 Paciente
               </S.LastPatientContentTitle>
               <S.LastPatientContentValue>
-                {lastPatient.nome_paciente} <IconButton><SearchIcon/></IconButton>
+                {lastPatient.nome_paciente} <IconButton onClick = { () => handlePatientData(lastPatient.paciente_id) }><SearchIcon/></IconButton>
               </S.LastPatientContentValue>
             </S.LastPatientContent>
             <S.LastPatientContent>
@@ -160,7 +160,7 @@ export default function History() {
                         </StyledTableCell>
                         <StyledTableCell className={classes.rowValue} align="center">{row.sala_medico}</StyledTableCell>
                         <StyledTableCell className={classes.rowValue} align="center">{row.data}</StyledTableCell>
-                        <StyledTableCell className={classes.rowValue} align="center"><IconButton><SearchIcon/></IconButton></StyledTableCell>
+                        <StyledTableCell className={classes.rowValue} align="center"><IconButton onClick = { () => handlePatientData(row.paciente_id) }><SearchIcon/></IconButton></StyledTableCell>
                       </StyledTableRow>
                     ))}
                   </TableBody>
