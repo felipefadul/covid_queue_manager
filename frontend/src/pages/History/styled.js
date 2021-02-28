@@ -7,6 +7,10 @@ export const HistoryContainer = styled.div`
   align-items: center;
   background-color: #E6FFE6;
   height: 100vh;
+
+  @media(max-width: 960px) {
+    height: 150vh;
+  }
 `;
 
 export const AppTitle = styled.h1`
@@ -32,9 +36,71 @@ export const Content = styled.div`
   margin: 1rem;
 
   @media(max-width: 960px) {
-    padding: 1.5rem 2.5rem;
+    padding: 1rem .9rem;
   }
 `;
+
+export const LastPatientContainer = styled.div`
+  display: flex;
+  margin-bottom: 1rem;
+  min-width: 676px;
+
+  @media(max-width: 960px) {
+    flex-direction: column;
+    min-width: 300px;
+  }
+`
+
+export const LastPatientContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #FFF;
+  padding: 1rem 1rem 1rem 1rem;
+  border-radius: 1rem;
+  max-width: 40rem;
+  overflow-y: auto;
+  max-height: 40rem;
+  width: 50%;
+  margin: 0 .5rem;
+
+  @media(max-width: 960px) {
+    height: 4rem;
+    width: 100%;
+    margin: 0 1rem;
+    min-width: 100px;
+    max-width: 15rem;
+    max-height: 20rem;
+
+    &:first-child {
+      margin-bottom: 1rem;
+    }
+  }
+`
+
+export const LastPatientContentTitle = styled.h3`
+  color: #008000;
+  font-weight: bold;
+  font-size: 1.3rem;
+`
+
+export const LastPatientContentValue = styled.h2`
+  color: #829882;
+  font-weight: bold;
+
+  &.room {
+    font-size: 2rem;
+  }
+
+  @media(max-width: 960px) {
+    font-size: 1rem;
+
+    &.room {
+      font-size: 1.5rem;
+    }
+  }
+`
 
 export const HistoryContent = styled.div`
   display: flex;
@@ -43,11 +109,13 @@ export const HistoryContent = styled.div`
   background-color: #FFF;
   padding: 1rem 1rem 1rem 1rem;
   border-radius: 1rem;
+  min-width: 300px;
   max-width: 40rem;
   overflow-y: auto;
   max-height: 40rem;
 
   @media(max-width: 960px) {
+    min-width: 100px;
     max-width: 15rem;
     max-height: 20rem;
   }

@@ -10,6 +10,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper'
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
 
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
@@ -53,7 +55,7 @@ const rows = [
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 550,
+    minWidth: 500,
   },
   columnName: {
     color: '#008000',
@@ -94,8 +96,25 @@ export default function History() {
           Sistema de Triagem - Coronavírus
         </S.AppTitle>
         <S.Content>
+          <S.LastPatientContainer>
+            <S.LastPatientContent>
+              <S.LastPatientContentTitle>
+                Paciente
+              </S.LastPatientContentTitle>
+              <S.LastPatientContentValue>
+                FULANO DA SILVA <IconButton><SearchIcon/></IconButton>
+              </S.LastPatientContentValue>
+            </S.LastPatientContent>
+            <S.LastPatientContent>
+              <S.LastPatientContentTitle>
+                  Sala
+              </S.LastPatientContentTitle>
+              <S.LastPatientContentValue className="room">
+                5
+              </S.LastPatientContentValue>
+            </S.LastPatientContent>
+          </S.LastPatientContainer>
           <S.HistoryContent>
-              {/* Bem-vindo ao Histórico, {accountName}! */}
             <S.HistoryContentTitle>
               Histórico de Chamadas
             </S.HistoryContentTitle>
@@ -117,6 +136,7 @@ export default function History() {
                         </StyledTableCell>
                         <StyledTableCell className={classes.rowValue} align="center">{row.calories}</StyledTableCell>
                         <StyledTableCell className={classes.rowValue} align="center">{row.fat}</StyledTableCell>
+                        <StyledTableCell className={classes.rowValue} align="center"><IconButton><SearchIcon/></IconButton></StyledTableCell>
                       </StyledTableRow>
                     ))}
                   </TableBody>
