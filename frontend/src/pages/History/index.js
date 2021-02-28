@@ -73,7 +73,7 @@ const useStyles = makeStyles({
 export default function History() {
   const history = useHistory();
   const classes = useStyles();
-  
+
   function handlePatientData(patientID) {
     api.get(`/api/pacientes/consulta/${patientID}`)
       .then(response => {
@@ -84,7 +84,7 @@ export default function History() {
       .catch(() => {});
   }
 
-  function handleCallNextPatient() {
+  async function handleCallNextPatient() {
     const data = {
       nome_medico: accountName,
       accountListGroups: accountListGroups
@@ -92,10 +92,9 @@ export default function History() {
 
     let patientID;
 
-    api.post(`/api/filas/chamar`, data)
+    await api.post(`/api/filas/chamar`, data)
       .then(response => {
-        console.log('response.data', response.data);
-        patientID = response.data;
+        patientID = response.data.paciente_id;
       })
       .catch(() => {});
 
