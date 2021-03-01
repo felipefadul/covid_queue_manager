@@ -16,14 +16,19 @@ const UUID_SALA_MEDICO_5              = '6df3a6eb-3c4d-401a-a38f-5c67230a790b';
 
 async function handleQueueCall (data, nome_medico, sala_medico, codigo_classificacao, nome_fila)
 {
-  const corpo_mensagem = JSON.parse(data.Body);
-  const paciente_id = corpo_mensagem.paciente_id;
-  const nome_enfermeiro = corpo_mensagem.nome_enfermeiro;
-  const tipo_classificacao_id = await db.recuperarTipoClassificacaoPorCodigo(codigo_classificacao);
-  await db.inserirTabelaHistorico(paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id[0].tipo_classificacao_id);
-  await deletarPacienteFilaAWS (data, nome_fila);
+  try {
+    const corpo_mensagem = JSON.parse(data.Body);
+    const paciente_id = corpo_mensagem.paciente_id;
+    const nome_enfermeiro = corpo_mensagem.nome_enfermeiro;
+    const tipo_classificacao_id = await db.recuperarTipoClassificacaoPorCodigo(codigo_classificacao);
+    await db.inserirTabelaHistorico(paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id[0].tipo_classificacao_id);
+    await deletarPacienteFilaAWS (data, nome_fila);
+    return paciente_id;
 
-  return paciente_id;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 }
 
 class GerenciadorFila {
