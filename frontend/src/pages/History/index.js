@@ -1,5 +1,4 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthenticationState } from 'react-aad-msal';
 import { withStyles, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -9,14 +8,16 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper'
+import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
 
-import CheckForValueJson from '../../utils/checkForValueJson'
+import CheckForValueJson from '../../utils/checkForValueJson';
+import api from '../../services/api';
+
 import Unauthorized from '../Unauthorized';
 
 const theme = createMuiTheme({
@@ -42,17 +43,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Fulano da Silva 2', 4, '10:48', 24, 4.0),
-  createData('Fulano da Silva 3', 3, '10:45', 37, 4.3),
-  createData('Fulano da Silva 4', 2, '10:40', 24, 6.0),
-  createData('Fulano da Silva 5', 1, '10:37', 67, 4.3),
-];
-
 const useStyles = makeStyles({
   table: {
     minWidth: 500,
@@ -68,13 +58,15 @@ const useStyles = makeStyles({
     borderBottom: "none"
   }
 });
-
 export default function History() {
   const history = useHistory();
   const classes = useStyles();
-  
-  function handlePatientData() {
-    axios.get(`http://localhost:3333/api/pacientes/consulta/989b5a51-3589-4a94-855f-74b80219315d`)
+
+  const [historyData, setHistoryData] = useState([]);
+  const [lastPatient, setLastPatient] = useState({});
+
+  function handlePatientData(patientID) {
+    api.get(`/api/pacientes/consulta/${patientID}`)
       .then(response => {
         const patient = response.data.paciente;
         localStorage.setItem('patient', JSON.stringify(patient));
@@ -83,9 +75,41 @@ export default function History() {
       .catch(() => {});
   }
 
+  async function handleCallNextPatient() {
+    const data = {
+      nome_medico: accountName,
+      accountListGroups: accountListGroups
+    };
+
+    let patientID;
+
+    await api.post(`/api/filas/chamar`, data)
+      .then(response => {
+        patientID = response.data.paciente_id;
+      })
+      .catch(() => {});
+
+    handlePatientData(patientID);
+  }
+
+  async function handleHistorySearch() {
+    await api.get(`/api/historico/consulta/privado`)
+    .then(response => {
+      setLastPatient(response.data.historico[0]);
+      setHistoryData(response.data.historico.slice(1));
+      console.log('historyData', historyData);
+    })
+    .catch(() => {});
+  }
+
   function handleScreening() {
     history.push('/triagem');
   }
+
+  useEffect(() => {
+    handleHistorySearch();
+  },  [history]);
+
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
   const accountListGroups = JSON.parse(localStorage.getItem('accountListGroups'));
   const accountName = localStorage.getItem('accountName');
@@ -102,7 +126,7 @@ export default function History() {
                 Paciente
               </S.LastPatientContentTitle>
               <S.LastPatientContentValue>
-                FULANO DA SILVA <IconButton><SearchIcon/></IconButton>
+                {lastPatient.nome_paciente} <IconButton onClick = { () => handlePatientData(lastPatient.paciente_id) }><SearchIcon/></IconButton>
               </S.LastPatientContentValue>
             </S.LastPatientContent>
             <S.LastPatientContent>
@@ -110,7 +134,7 @@ export default function History() {
                   Sala
               </S.LastPatientContentTitle>
               <S.LastPatientContentValue className="room">
-                5
+                {lastPatient.sala_medico}
               </S.LastPatientContentValue>
             </S.LastPatientContent>
           </S.LastPatientContainer>
@@ -129,14 +153,14 @@ export default function History() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <StyledTableRow key={row.name}>
+                    {historyData.map((row) => (
+                      <StyledTableRow key={row.paciente_id}>
                         <StyledTableCell className={classes.rowValue} align="left" component="th" scope="row">
-                          {row.name.toUpperCase()}
+                          {row.nome_paciente.toUpperCase()}
                         </StyledTableCell>
-                        <StyledTableCell className={classes.rowValue} align="center">{row.calories}</StyledTableCell>
-                        <StyledTableCell className={classes.rowValue} align="center">{row.fat}</StyledTableCell>
-                        <StyledTableCell className={classes.rowValue} align="center"><IconButton><SearchIcon/></IconButton></StyledTableCell>
+                        <StyledTableCell className={classes.rowValue} align="center">{row.sala_medico}</StyledTableCell>
+                        <StyledTableCell className={classes.rowValue} align="center">{row.data}</StyledTableCell>
+                        <StyledTableCell className={classes.rowValue} align="center"><IconButton onClick = { () => handlePatientData(row.paciente_id) }><SearchIcon/></IconButton></StyledTableCell>
                       </StyledTableRow>
                     ))}
                   </TableBody>
@@ -145,8 +169,9 @@ export default function History() {
             </ThemeProvider>
           </S.HistoryContent>
           <S.ButtonArea>
-            {CheckForValueJson(accountListGroups,'21af395d-6321-4465-9a48-e1aa65178e01') ? <S.Button onClick = { handlePatientData }>CHAMAR PRÓXIMO PACIENTE</S.Button> : ''}
-            {CheckForValueJson(accountListGroups,'77cdb68f-6363-41de-93e8-9e15f2938471') ? <S.Button onClick = { handleScreening }>REALIZAR TRIAGEM</S.Button>:''}            
+            <S.Button onClick = { handleHistorySearch }>ATUALIZAR</S.Button>
+            {CheckForValueJson(accountListGroups,'21af395d-6321-4465-9a48-e1aa65178e01') ? <S.Button onClick = { handleCallNextPatient }>CHAMAR PRÓXIMO PACIENTE</S.Button> : ''}
+            {CheckForValueJson(accountListGroups,'77cdb68f-6363-41de-93e8-9e15f2938471') ? <S.Button onClick = { handleScreening }>REALIZAR TRIAGEM</S.Button>:''}
           </S.ButtonArea>
         </S.Content>
         <GlobalStyle />

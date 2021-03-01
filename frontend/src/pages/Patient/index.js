@@ -15,6 +15,8 @@ import Unauthorized from '../Unauthorized';
 import { AuthenticationState } from 'react-aad-msal';
 import CheckForValueJson from '../../utils/checkForValueJson'
 
+import api from '../../services/api';
+
 const GreenCheckbox = withStyles({
   root: {
     color: green[400],
@@ -55,8 +57,36 @@ export default function Screening() {
     history.push('/historico');
   }
 
+  function handlePatientData(patientID) {
+    api.get(`/api/pacientes/consulta/${patientID}`)
+      .then(response => {
+        const patient = response.data.paciente;
+        localStorage.setItem('patient', JSON.stringify(patient));
+        history.push('/paciente');
+      })
+      .catch(() => {});
+  }
+
+  async function handleCallNextPatient() {
+    const data = {
+      nome_medico: accountName,
+      accountListGroups: accountListGroups
+    };
+
+    let patientID;
+
+    await api.post(`/api/filas/chamar`, data)
+      .then(response => {
+        patientID = response.data.paciente_id;
+      })
+      .catch(() => {});
+
+    handlePatientData(patientID);
+  }
+
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
   const accountListGroups = JSON.parse(localStorage.getItem('accountListGroups'));
+  const accountName = localStorage.getItem('accountName');
   if ((authenticationState === AuthenticationState.Authenticated) && (CheckForValueJson(accountListGroups, '21af395d-6321-4465-9a48-e1aa65178e01'))) {
     return (
       <S.ScreeningContainer>
@@ -301,7 +331,7 @@ export default function Screening() {
             <S.Button onClick = { handleNavigationBack }>
               VOLTAR
             </S.Button>
-            <S.Button>
+            <S.Button onClick = { handleCallNextPatient }>
               CHAMAR PRÓXIMO PACIENTE
             </S.Button>
           </S.ButtonArea>

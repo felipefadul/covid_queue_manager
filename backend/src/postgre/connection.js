@@ -97,7 +97,7 @@ class Postgres {
 
   async inserirTabelaHistoricoAsync( historico_id, paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id, tabela ) {
      const { rows } = await db.query(
-      `INSERT INTO ${tabela} (historico_id, paciente_id, nome_enfermeiro, nome_medico, tipo_classificacao_id) VALUES ($1, $2, $3, $4, $5, $6)`,
+      `INSERT INTO ${tabela} (historico_id, paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id) VALUES ($1, $2, $3, $4, $5, $6)`,
       [historico_id, paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id]);
       await db.query("commit;");
     return rows;

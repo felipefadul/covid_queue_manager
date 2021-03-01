@@ -9,6 +9,7 @@ async function receiveMessage(params) {
   AWS.config.loadFromPath(configAWSPath);
   var sqs = new AWS.SQS ({apiVersion: date_formated});
   const request = sqs.receiveMessage(params);
+
   return await request.promise();
 }
 
@@ -27,7 +28,6 @@ module.exports = async function receberPacienteFilaAWS (nome_fila) {
       WaitTimeSeconds: 0
     };
     const paciente_fila = await receiveMessage(params);
-
     if(typeof paciente_fila.Messages === "undefined")
       return -1;
       
