@@ -36,18 +36,19 @@ export const Content = styled.div`
   margin: 1rem;
 
   @media(max-width: 960px) {
-    padding: 1rem .9rem;
+    padding: 1rem 0;
+    margin: .5rem;
   }
 `;
 
 export const LastPatientContainer = styled.div`
   display: flex;
   margin-bottom: 1rem;
-  min-width: 676px;
+  width: 53rem;
 
   @media(max-width: 960px) {
     flex-direction: column;
-    min-width: 300px;
+    width: 21rem;
   }
 `
 
@@ -59,7 +60,6 @@ export const LastPatientContent = styled.div`
   background-color: #FFF;
   padding: 1rem 1rem 1rem 1rem;
   border-radius: 1rem;
-  max-width: 40rem;
   overflow-y: auto;
   max-height: 40rem;
   width: 50%;
@@ -69,8 +69,7 @@ export const LastPatientContent = styled.div`
     height: 4rem;
     width: 100%;
     margin: 0 1rem;
-    min-width: 100px;
-    max-width: 15rem;
+    width: 17rem;
     max-height: 20rem;
 
     &:first-child {
@@ -95,6 +94,7 @@ export const LastPatientContentValue = styled.h2`
 
   @media(max-width: 960px) {
     font-size: 1rem;
+    text-align: center;
 
     &.room {
       font-size: 1.5rem;
@@ -109,14 +109,12 @@ export const HistoryContent = styled.div`
   background-color: #FFF;
   padding: 1rem 1rem 1rem 1rem;
   border-radius: 1rem;
-  min-width: 300px;
-  max-width: 40rem;
+  width: 50rem;
   overflow-y: auto;
   max-height: 40rem;
 
   @media(max-width: 960px) {
-    min-width: 100px;
-    max-width: 15rem;
+    width: 17rem;
     max-height: 20rem;
   }
 `
