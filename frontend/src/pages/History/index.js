@@ -11,6 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import * as S from './styled';
 import GlobalStyle from '../../styles/global';
@@ -58,12 +60,26 @@ const useStyles = makeStyles({
     borderBottom: "none"
   }
 });
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function History() {
   const history = useHistory();
   const classes = useStyles();
 
   const [historyData, setHistoryData] = useState([]);
   const [lastPatient, setLastPatient] = useState({});
+  const [openWarningSnackbar, setOpenWarningSnackbar] = useState(false);
+
+  const handleOpenWarningSnackbar = () => {
+    setOpenWarningSnackbar(true);
+  };
+
+  const handleCloseWarningSnackbar = () => {
+    setOpenWarningSnackbar(false);
+  };
 
   function handlePatientData(patientID) {
     api.get(`/api/pacientes/consulta/${patientID}`)
@@ -89,7 +105,7 @@ export default function History() {
       })
       .catch(() => {});
 
-    handlePatientData(patientID);
+    patientID !== null ? handlePatientData(patientID) : handleOpenWarningSnackbar();
   }
 
   async function handleHistorySearch() {
@@ -97,7 +113,6 @@ export default function History() {
     .then(response => {
       setLastPatient(response.data.historico[0]);
       setHistoryData(response.data.historico.slice(1));
-      console.log('historyData', historyData);
     })
     .catch(() => {});
   }
@@ -173,6 +188,16 @@ export default function History() {
             {CheckForValueJson(accountListGroups,'21af395d-6321-4465-9a48-e1aa65178e01') ? <S.Button onClick = { handleCallNextPatient }>CHAMAR PRÓXIMO PACIENTE</S.Button> : ''}
             {CheckForValueJson(accountListGroups,'77cdb68f-6363-41de-93e8-9e15f2938471') ? <S.Button onClick = { handleScreening }>REALIZAR TRIAGEM</S.Button>:''}
           </S.ButtonArea>
+          <Snackbar
+            open={openWarningSnackbar}
+            autoHideDuration={5000}
+            onClose={handleCloseWarningSnackbar}>
+            <Alert
+              onClose={handleCloseWarningSnackbar}
+              severity="warning">
+              {`Fila está vazia!`}
+            </Alert>
+          </Snackbar>
         </S.Content>
         <GlobalStyle />
       </S.HistoryContainer>   

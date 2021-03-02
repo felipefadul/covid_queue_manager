@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import * as S from './styled';
@@ -8,6 +8,8 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import green from '@material-ui/core/colors/green';
 
@@ -35,9 +37,24 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '1rem'
   }
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function Screening() {
   const classes = useStyles();
   const history = useHistory();
+
+  const [openWarningSnackbar, setOpenWarningSnackbar] = useState(false);
+
+  const handleOpenWarningSnackbar = () => {
+    setOpenWarningSnackbar(true);
+  };
+
+  const handleCloseWarningSnackbar = () => {
+    setOpenWarningSnackbar(false);
+  };
   
   const patient = JSON.parse(localStorage.getItem('patient'));
   const classificationColor = chooseClassificationColor(patient.classificacao);
@@ -81,7 +98,7 @@ export default function Screening() {
       })
       .catch(() => {});
 
-    handlePatientData(patientID);
+    patientID !== null ? handlePatientData(patientID) : handleOpenWarningSnackbar();
   }
 
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
@@ -335,6 +352,16 @@ export default function Screening() {
               CHAMAR PRÓXIMO PACIENTE
             </S.Button>
           </S.ButtonArea>
+          <Snackbar
+            open={openWarningSnackbar}
+            autoHideDuration={5000}
+            onClose={handleCloseWarningSnackbar}>
+            <Alert
+              onClose={handleCloseWarningSnackbar}
+              severity="warning">
+              {`Fila está vazia!`}
+            </Alert>
+          </Snackbar>
         </S.Content>
         <GlobalStyle />
       </S.ScreeningContainer>
