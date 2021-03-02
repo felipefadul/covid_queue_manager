@@ -48,9 +48,6 @@ module.exports = async function inserirFilaAWS (paciente_id, classificacao, enfe
     else if (classificacao === 'Risco Baixo') {
       await enviarMensagemFilaAWS (paciente_id, 'leve', enfermeiro)
     }
-    else {
-      await enviarMensagemFilaAWS (paciente_id, 'sem_sintomas', enfermeiro)
-    }
     return 'ok';
   } catch (err) {
     console.log(err);
