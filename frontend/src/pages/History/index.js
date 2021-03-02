@@ -72,6 +72,7 @@ export default function History() {
   const [historyData, setHistoryData] = useState([]);
   const [lastPatient, setLastPatient] = useState({});
   const [openWarningSnackbar, setOpenWarningSnackbar] = useState(false);
+  const [time, setTime] = useState(Date.now());
 
   const handleOpenWarningSnackbar = () => {
     setOpenWarningSnackbar(true);
@@ -122,8 +123,12 @@ export default function History() {
   }
 
   useEffect(() => {
+    let interval = setInterval(() => setTime(Date.now()), 3000);
     handleHistorySearch();
-  },  [history]);
+    return () => {
+      clearInterval(interval);
+    };
+  },  [history, time]);
 
   const authenticationState = JSON.parse(localStorage.getItem('authenticationState'));
   const accountListGroups = JSON.parse(localStorage.getItem('accountListGroups'));
