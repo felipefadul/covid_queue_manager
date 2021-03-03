@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthenticationState } from 'react-aad-msal';
+import { authProvider } from "../../authProvider";
 import { withStyles, makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,7 +21,6 @@ import GlobalStyle from '../../styles/global';
 import CheckForValueJson from '../../utils/checkForValueJson';
 import api from '../../services/api';
 
-import Unauthorized from '../Unauthorized';
 
 const theme = createMuiTheme({
   shadows: ["none"],
@@ -110,7 +110,8 @@ export default function History() {
   }
 
   async function handleHistorySearch() {
-    const visibility = (authenticationState === AuthenticationState.Authenticated) ? 'privado': 'publico';
+    const visibility = (authenticationState === AuthenticationState.Authenticated) ? 'privado' : 'publico';
+    
     await api.get(`/api/historico/consulta/${visibility}`)
     .then(response => {
       setLastPatient(response.data.historico[0]);
@@ -121,6 +122,13 @@ export default function History() {
 
   function handleScreening() {
     history.push('/triagem');
+  }
+
+  async function handleLogout() {
+    localStorage.removeItem('authenticationState');
+    localStorage.removeItem('accountListGroups');
+    localStorage.removeItem('accountName');
+    await authProvider.logout();
   }
 
   useEffect(() => {
@@ -198,6 +206,7 @@ export default function History() {
           </ThemeProvider>
         </S.HistoryContent>
         <S.ButtonArea>
+          {(authenticationState === AuthenticationState.Authenticated) ? <S.Button onClick = { handleLogout } >LOGOUT</S.Button>:''}
           {CheckForValueJson(accountListGroups,'21af395d-6321-4465-9a48-e1aa65178e01') ? <S.Button onClick = { handleCallNextPatient }>CHAMAR PRÓXIMO PACIENTE</S.Button> : ''}
           {CheckForValueJson(accountListGroups,'77cdb68f-6363-41de-93e8-9e15f2938471') ? <S.Button onClick = { handleScreening }>REALIZAR TRIAGEM</S.Button>:''}
           {(authenticationState !== AuthenticationState.Authenticated) ? <S.Button onClick = { () => history.push('/') } >VOLTAR</S.Button>:''}
