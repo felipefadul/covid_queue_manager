@@ -7,7 +7,7 @@ O projeto consiste em um Sistema de Triagem para auxiliar os hospitais no atendi
 Foi desenvolvida uma plataforma web hospedada na nuvem que seja responsiva e possa ser acessada também do celular. É possível realizar uma triagem com classificação automática de gravidade e gerenciamento de fila para o atendimento dos pacientes com sintomas da COVID-19.
 
 ## Vídeo de demonstração
-[Link](https://www.youtube.com/watch?v=5L8QlRFj4Mo&feature=youtu.be)
+- [Link](https://www.youtube.com/watch?v=5L8QlRFj4Mo&feature=youtu.be)
 
 
 ## Autores:
