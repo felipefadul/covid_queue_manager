@@ -206,10 +206,10 @@ export default function History() {
           </ThemeProvider>
         </S.HistoryContent>
         <S.ButtonArea>
-          {(authenticationState === AuthenticationState.Authenticated) ? <S.Button onClick = { handleLogout } >LOGOUT</S.Button>:''}
+          {(authenticationState === AuthenticationState.Authenticated) ? <S.Button onClick = { handleLogout }>SAIR</S.Button>:''}
           {CheckForValueJson(accountListGroups,'21af395d-6321-4465-9a48-e1aa65178e01') ? <S.Button onClick = { handleCallNextPatient }>CHAMAR PRÓXIMO PACIENTE</S.Button> : ''}
           {CheckForValueJson(accountListGroups,'77cdb68f-6363-41de-93e8-9e15f2938471') ? <S.Button onClick = { handleScreening }>REALIZAR TRIAGEM</S.Button>:''}
-          {(authenticationState !== AuthenticationState.Authenticated) ? <S.Button onClick = { () => history.push('/') } >VOLTAR</S.Button>:''}
+          {(authenticationState !== AuthenticationState.Authenticated) ? <S.Button onClick = { () => history.push('/') }>VOLTAR</S.Button>:''}
         </S.ButtonArea>
         <Snackbar
           open={openWarningSnackbar}
