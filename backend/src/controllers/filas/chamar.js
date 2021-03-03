@@ -16,14 +16,19 @@ const UUID_SALA_MEDICO_5              = '6df3a6eb-3c4d-401a-a38f-5c67230a790b';
 
 async function handleQueueCall (data, nome_medico, sala_medico, codigo_classificacao, nome_fila)
 {
-  const corpo_mensagem = JSON.parse(data.Body);
-  const paciente_id = corpo_mensagem.paciente_id;
-  const nome_enfermeiro = corpo_mensagem.nome_enfermeiro;
-  const tipo_classificacao_id = await db.recuperarTipoClassificacaoPorCodigo(codigo_classificacao);
-  await db.inserirTabelaHistorico(paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id[0].tipo_classificacao_id);
-  await deletarPacienteFilaAWS (data, nome_fila);
+  try {
+    const corpo_mensagem = JSON.parse(data.Body);
+    const paciente_id = corpo_mensagem.paciente_id;
+    const nome_enfermeiro = corpo_mensagem.nome_enfermeiro;
+    const tipo_classificacao_id = await db.recuperarTipoClassificacaoPorCodigo(codigo_classificacao);
+    await db.inserirTabelaHistorico(paciente_id, nome_enfermeiro, nome_medico, sala_medico, tipo_classificacao_id[0].tipo_classificacao_id);
+    await deletarPacienteFilaAWS (data, nome_fila);
+    return paciente_id;
 
-  return paciente_id;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 }
 
 class GerenciadorFila {
@@ -38,7 +43,6 @@ class GerenciadorFila {
       const contagem_grave = await db.recuperarContagemHistoricoGrave(tipo_classificacao_id_grave[0].tipo_classificacao_id);
       let contagem = await db.recuperarContagemHistorico();
       contagem = contagem - contagem_grave;
-
       var paciente_id = null;
 
       let sala_medico;
@@ -62,12 +66,8 @@ class GerenciadorFila {
       else {
         const data_moderado = await receberPacienteFilaAWS('moderado');
         const data_leve = await receberPacienteFilaAWS('leve');
-        const data_sem_sintomas = await receberPacienteFilaAWS('sem_sintomas');
 
-        if (((contagem % 12 === 0) && (data_sem_sintomas != -1)) || ((data_leve === -1) && (data_moderado === -1) && (data_sem_sintomas != -1)) ) {
-          paciente_id = await handleQueueCall (data_sem_sintomas, nome_medico, sala_medico, CODIGO_SEM_SINTOMAS, 'sem_sintomas');
-        }
-        else if (((contagem % 3 === 0) && (data_leve != -1)) || (data_moderado === -1) && (data_leve != -1)) {
+        if (((contagem % 4 === 0) && (data_leve != -1) && (contagem != 0)) || ((data_moderado === -1) && (data_leve != -1))) {
           paciente_id = await handleQueueCall (data_leve, nome_medico, sala_medico, CODIGO_RISCO_LEVE, 'leve');
         }
         else if (data_moderado != -1) {

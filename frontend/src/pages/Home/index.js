@@ -60,7 +60,7 @@ export default function Home() {
           <S.AppTitle>
             Sistema de Triagem <br /> Coronavírus
         </S.AppTitle>
-          <S.Button>
+          <S.Button onClick={() => history.push('/historico')}>
             PAINEL DE ATENDIMENTO
         </S.Button>
         <S.Button onClick={handleAccess}>

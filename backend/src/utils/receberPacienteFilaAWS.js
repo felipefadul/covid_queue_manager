@@ -4,13 +4,18 @@ const { join } = require('path');
 const configAWSPath = join(__dirname, '../config', `.env.aws.json`);
 
 async function receiveMessage(params) {
-  const date_now = new Date();
-  const date_formated = date_now.toISOString().slice(0,10);
-  AWS.config.loadFromPath(configAWSPath);
-  var sqs = new AWS.SQS ({apiVersion: date_formated});
-  const request = sqs.receiveMessage(params);
+  try {
+    const date_now = new Date();
+    const date_formated = date_now.toISOString().slice(0,10);
+    AWS.config.loadFromPath(configAWSPath);
+    var sqs = new AWS.SQS ({apiVersion: date_formated});
+    const request = sqs.receiveMessage(params);
 
-  return await request.promise();
+    return await request.promise();
+  } catch (err) {
+    console.log(err);
+    return -1;
+  }
 }
 
 module.exports = async function receberPacienteFilaAWS (nome_fila) {
