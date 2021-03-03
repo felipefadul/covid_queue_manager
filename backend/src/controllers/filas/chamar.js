@@ -43,7 +43,6 @@ class GerenciadorFila {
       const contagem_grave = await db.recuperarContagemHistoricoGrave(tipo_classificacao_id_grave[0].tipo_classificacao_id);
       let contagem = await db.recuperarContagemHistorico();
       contagem = contagem - contagem_grave;
-
       var paciente_id = null;
 
       let sala_medico;
@@ -68,7 +67,7 @@ class GerenciadorFila {
         const data_moderado = await receberPacienteFilaAWS('moderado');
         const data_leve = await receberPacienteFilaAWS('leve');
 
-        if (((contagem % 3 === 0) && (data_leve != -1)) || (data_moderado === -1) && (data_leve != -1)) {
+        if (((contagem % 4 === 0) && (data_leve != -1) && (contagem != 0)) || ((data_moderado === -1) && (data_leve != -1))) {
           paciente_id = await handleQueueCall (data_leve, nome_medico, sala_medico, CODIGO_RISCO_LEVE, 'leve');
         }
         else if (data_moderado != -1) {
