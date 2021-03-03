@@ -146,7 +146,7 @@ export default function History() {
                 Paciente
               </S.LastPatientContentTitle>
               <S.LastPatientContentValue>
-                {lastPatient.nome_paciente} <IconButton onClick = { () => handlePatientData(lastPatient.paciente_id) }><SearchIcon/></IconButton>
+                {lastPatient.nome_paciente?.toUpperCase()} <IconButton onClick = { () => handlePatientData(lastPatient.paciente_id) }><SearchIcon/></IconButton>
               </S.LastPatientContentValue>
             </S.LastPatientContent>
             <S.LastPatientContent>
